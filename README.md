@@ -13,7 +13,7 @@ This exporter uses the JavaMelody [lastValue external API](https://github.com/ja
 ## How to use it
 The build is maven based so a `mvn package` will create the war file in the `target` folder.
 
-Before doing this you have to create your own `javamelody.properties` file and put it in your classpath (with Tomcat, use ${catalina.home}/common/classes/
+Before doing this you have to create your own `javamelody.properties` file and put it in your classpath (with Tomcat, use ${catalina.home}/common/classes/)
 
 Afterwards just deploy the war file on an application server of your choice. (Tested with Tomcat 7 & 8, minimum Java 6)
 
