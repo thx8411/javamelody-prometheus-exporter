@@ -8,7 +8,7 @@ package de.florianschlag.javamelodyprometheusexporter.config;
  *
  */
 public enum JavaMelodyLastValueGraphs {
-	
+
 	HTTP_HITS_RATE("httpHitsRate"),
 	HTTP_MEAN_TIMES("httpMeanTimes"),
 	HTTP_SYSTEM_ERRORS("httpSystemErrors"),
@@ -42,5 +42,5 @@ public enum JavaMelodyLastValueGraphs {
 	public String getParameterName() {
 		return parameterName;
 	}
-	
+
 }

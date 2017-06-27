@@ -16,13 +16,13 @@ import org.apache.http.util.EntityUtils;
 import de.florianschlag.javamelodyprometheusexporter.config.JavaMelodyLastValueGraphs;
 
 public class JavaMelodyScraper {
-	
+
 	private static final int TIMEOUT = 5000;
-	
+
 	private static final String LAST_VALUE_BASE_URL = "?part=lastValue";
 	private static final String GRAPH_PARAMETER = "&graph=";
 	private static final String APPLICATION_PARAMETER = "&application=";
-	
+
 	private static final String BASIC_AUTH_HEADER_NAME = "Authorization";
 	private static final String BASIC_AUTH_HEADER_VALUE = "Basic ";
 
@@ -38,11 +38,11 @@ public class JavaMelodyScraper {
 		this.baseUrl = baseUrl;
 		this.collector = isCollector;
 	}
-	
+
 	public Map<JavaMelodyLastValueGraphs, Double> scrap() throws ScrapExeption {
 		return scrap(null, JavaMelodyLastValueGraphs.values());
 	}
-	
+
 	public Map<JavaMelodyLastValueGraphs, Double> scrap(String application) throws ScrapExeption {
 		return scrap(application, JavaMelodyLastValueGraphs.values());
 	}
@@ -50,7 +50,7 @@ public class JavaMelodyScraper {
 	public Map<JavaMelodyLastValueGraphs, Double> scrap(JavaMelodyLastValueGraphs... graphs) throws ScrapExeption {
 		return scrap(null, graphs);
 	}
-	
+
 	public Map<JavaMelodyLastValueGraphs, Double> scrap(String application, JavaMelodyLastValueGraphs... graphs) throws ScrapExeption {
 		if (collector && (application == null || application.length() <= 0) ) {
 			throw new ScrapExeption("Collector is configured, but no applications provided.");
@@ -68,7 +68,7 @@ public class JavaMelodyScraper {
 		}
 		return result;
 	}
-	
+
 	private String downloadLastValueData(String url) throws ScrapExeption {
 		try {
 			Request request = Request
@@ -90,7 +90,7 @@ public class JavaMelodyScraper {
 			throw new ScrapExeption("Exception while downloading: " + url, e);
 		}
 	}
-	
+
 	private String buildBasicAuthHeaderValue(String username, String password) {
 		String userPassword = username + ":" + password;
 		return Base64.encodeBase64String(userPassword.getBytes());
@@ -114,7 +114,7 @@ public class JavaMelodyScraper {
 			sBuilder.append(APPLICATION_PARAMETER);
 			sBuilder.append(application);
 		}
-		return sBuilder.toString(); 
+		return sBuilder.toString();
 	}
 
 }

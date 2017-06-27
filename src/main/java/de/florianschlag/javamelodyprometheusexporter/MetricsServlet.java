@@ -19,11 +19,11 @@ import io.prometheus.client.exporter.common.TextFormat;
  */
 public class MetricsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Logger logger = Logger.getLogger(MetricsServlet.class);
 	private static JavaMelodyConfig config = new JavaMelodyConfig();
-	
-	private static final JavaMelodyPrometheusCollector collector; 
+
+	private static final JavaMelodyPrometheusCollector collector;
 
 	static {
 		collector = new JavaMelodyPrometheusCollector(config.getUrl(), config.getBasicAuthUsername(), config.getBasicAuthPassword(), config.isCollectorConfiguration(), config.getCollectorAppilcations()).register();
@@ -33,7 +33,7 @@ public class MetricsServlet extends HttpServlet {
 			throws ServletException, IOException {
 		Writer writer = response.getWriter();
 		try {
-			
+
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.setContentType(TextFormat.CONTENT_TYPE_004);
 

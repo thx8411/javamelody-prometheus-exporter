@@ -68,7 +68,7 @@ public class JavaMelodyConfig {
 	public void setCollectorConfiguration(boolean collectorConfiguration) {
 		this.collectorConfiguration = collectorConfiguration;
 	}
-	
+
 	public String[] getCollectorAppilcations() {
 		return collectorAppilcations;
 	}
@@ -99,5 +99,4 @@ public class JavaMelodyConfig {
 				+ ", basicAuthUsername=" + basicAuthUsername + ", basicAuthPassword=" + "***" + "]";
 	}
 
-	
 }

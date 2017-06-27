@@ -14,9 +14,9 @@ import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 
 public class JavaMelodyPrometheusCollector extends Collector {
-	
+
 	private static final Logger logger = Logger.getLogger(JavaMelodyPrometheusCollector.class);
-	
+
 	public static final String NAMESPACE = "javamelody";
 
 	private JavaMelodyScraper scraper;
@@ -39,7 +39,7 @@ public class JavaMelodyPrometheusCollector extends Collector {
 			throw new IllegalStateException(e);
 		}
 	}
-	
+
 	private List<MetricFamilySamples> buildSingleServerMetricFamilySamples() throws ScrapExeption {
 		List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
 		Map<JavaMelodyLastValueGraphs, Double> scrapResults = scrapSingleServer();
@@ -48,7 +48,7 @@ public class JavaMelodyPrometheusCollector extends Collector {
 		}
 		return mfs;
 	}
-	
+
 	private List<MetricFamilySamples> buildCollectorServerMetricFamilySamples() throws ScrapExeption {
 		List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
 		Map<String, Map<JavaMelodyLastValueGraphs, Double>> scrapResults = scrapCollectorServer(applications);
