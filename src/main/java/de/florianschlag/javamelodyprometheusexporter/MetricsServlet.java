@@ -26,7 +26,7 @@ public class MetricsServlet extends HttpServlet {
 	private static final JavaMelodyPrometheusCollector collector;
 
 	static {
-		collector = new JavaMelodyPrometheusCollector(config.getUrl(), config.getBasicAuthUsername(), config.getBasicAuthPassword(), config.isCollectorConfiguration(), config.getCollectorAppilcations()).register();
+		collector = new JavaMelodyPrometheusCollector(config.getUrl(), config.getBasicAuthUsername(), config.getBasicAuthPassword(), config.isCollectorConfiguration(), config.getCollectorApplications()).register();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

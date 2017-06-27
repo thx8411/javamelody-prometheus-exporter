@@ -19,7 +19,7 @@ public class JavaMelodyConfig {
 
 	private String url;
 	private boolean collectorConfiguration;
-	private String[] collectorAppilcations;
+	private String[] collectorApplications;
 
 	private String basicAuthUsername;
 	private String basicAuthPassword;
@@ -41,7 +41,7 @@ public class JavaMelodyConfig {
 				setBasicAuthPassword(props.getProperty(PROPERTY_BASIC_AUTH_PASSWORD, null));
 				setCollectorConfiguration(Boolean.valueOf(props.getProperty(PROPERTY_COLLECTOR_SERVER)));
 				String rawApplications = props.getProperty(PROPERTY_COLLECTOR_APPLICATIONS, null);
-				setCollectorAppilcations(rawApplications != null ? rawApplications.split(",") : null);
+				setCollectorApplications(rawApplications != null ? rawApplications.split(",") : null);
 			} finally {
 				if (propsInputStream != null)
 					propsInputStream.close();
@@ -69,12 +69,12 @@ public class JavaMelodyConfig {
 		this.collectorConfiguration = collectorConfiguration;
 	}
 
-	public String[] getCollectorAppilcations() {
-		return collectorAppilcations;
+	public String[] getCollectorApplications() {
+		return collectorApplications;
 	}
 
-	public void setCollectorAppilcations(String[] collectorAppilcations) {
-		this.collectorAppilcations = collectorAppilcations;
+	public void setCollectorApplications(String[] collectorApplications) {
+		this.collectorApplications = collectorApplications;
 	}
 
 	public String getBasicAuthUsername() {
