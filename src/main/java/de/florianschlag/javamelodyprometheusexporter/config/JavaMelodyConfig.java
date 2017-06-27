@@ -7,35 +7,35 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 public class JavaMelodyConfig {
-	
+
 	private static final Logger logger = Logger.getLogger(JavaMelodyConfig.class);
-	
+
 	private static final String PROPERTY_FILENAME = "javamelody.properties";
 	private static final String PROPERTY_URL = "javamelody.url";
 	private static final String PROPERTY_BASIC_AUTH_USERNAME = "javamelody.basicauth.username";
 	private static final String PROPERTY_BASIC_AUTH_PASSWORD = "javamelody.basicauth.password";
 	private static final String PROPERTY_COLLECTOR_SERVER = "javamelody.collector.server";
 	private static final String PROPERTY_COLLECTOR_APPLICATIONS = "javamelody.collector.applications";
-	
+
 	private String url;
 	private boolean collectorConfiguration;
 	private String[] collectorAppilcations;
 
 	private String basicAuthUsername;
 	private String basicAuthPassword;
-	
+
 	public JavaMelodyConfig() {
 		initConfig();
 	}
-	
+
 	private void initConfig() {
 		InputStream propsInputStream = null;
 		try {
 			try {
 				Properties props = new Properties();
-				propsInputStream = this.getClass().getClassLoader().getResourceAsStream(PROPERTY_FILENAME);
+				propsInputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(PROPERTY_FILENAME);
 				props.load(propsInputStream);
-				
+
 				setUrl(props.getProperty(PROPERTY_URL));
 				setBasicAuthUsername(props.getProperty(PROPERTY_BASIC_AUTH_USERNAME, null));
 				setBasicAuthPassword(props.getProperty(PROPERTY_BASIC_AUTH_PASSWORD, null));
