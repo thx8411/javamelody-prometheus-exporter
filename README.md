@@ -13,9 +13,7 @@ This exporter uses the JavaMelody [lastValue external API](https://github.com/ja
 ## How to use it
 The build is maven based so a `mvn package` will create the war file in the `target` folder.
 
-Before doing this you have to create your own `javamelody.properties` file in `src/main/resources/`otherwise the build will fail with
-
-	[ERROR] Failed to execute goal org.apache.maven.plugins:maven-enforcer-plugin:1.4.1:enforce (Custom javamelody.properties was created) on 	project javamelody-prometheus-exporter: Some Enforcer rules have failed. Look above for specific messages explaining why the rule failed. 	-> [Help 1]
+Before doing this you have to create your own `javamelody.properties` file and put it in your classpath (with Tomcat, use ${catalina.home}/common/classes/
 
 Afterwards just deploy the war file on an application server of your choice. (Tested with Tomcat 7 & 8, minimum Java 6)
 
