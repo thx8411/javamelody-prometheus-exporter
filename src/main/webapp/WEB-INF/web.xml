@@ -5,7 +5,7 @@
     <description></description>
     <display-name>MetricsServlet</display-name>
     <servlet-name>MetricsServlet</servlet-name>
-    <servlet-class>de.florianschlag.javamelodyprometheusexporter.MetricsServlet</servlet-class>
+    <servlet-class>fr.fam.javamelodyprometheusexporter.MetricsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MetricsServlet</servlet-name>

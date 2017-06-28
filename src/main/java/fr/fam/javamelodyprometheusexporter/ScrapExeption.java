@@ -1,4 +1,4 @@
-package de.florianschlag.javamelodyprometheusexporter;
+package fr.fam.javamelodyprometheusexporter;
 
 public class ScrapExeption extends Exception {
 

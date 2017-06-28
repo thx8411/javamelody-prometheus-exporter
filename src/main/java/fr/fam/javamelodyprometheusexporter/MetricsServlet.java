@@ -1,4 +1,4 @@
-package de.florianschlag.javamelodyprometheusexporter;
+package fr.fam.javamelodyprometheusexporter;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import de.florianschlag.javamelodyprometheusexporter.config.JavaMelodyConfig;
+import fr.fam.javamelodyprometheusexporter.config.JavaMelodyConfig;
 import io.prometheus.client.exporter.common.TextFormat;
 
 /**
@@ -26,20 +26,22 @@ public class MetricsServlet extends HttpServlet {
 	private static final JavaMelodyPrometheusCollector collector;
 
 	static {
-		collector = new JavaMelodyPrometheusCollector(config.getUrl(), config.getBasicAuthUsername(), config.getBasicAuthPassword(), config.getCollectorApplications()).register();
+		collector = new JavaMelodyPrometheusCollector(
+				config.getCollectorApplications()).register();
 	}
 
 	/**
         */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		Writer writer = response.getWriter();
 		try {
 
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.setContentType(TextFormat.CONTENT_TYPE_004);
 
-			TextFormat.write004(writer, Collections.enumeration(collector.collect()));
+			TextFormat.write004(writer,
+					Collections.enumeration(collector.collect()));
 			writer.flush();
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

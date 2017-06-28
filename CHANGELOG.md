@@ -1,3 +1,6 @@
+## 2.0 / 2017-06-26
+* 
+
 ## 1.2 / 2017-05-17
 * Added various SQL related metrics
 * Added open file descriptor metric
