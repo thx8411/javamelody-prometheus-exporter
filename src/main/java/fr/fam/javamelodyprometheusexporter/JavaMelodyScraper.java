@@ -25,13 +25,6 @@ public class JavaMelodyScraper {
 
 	private static final String LAST_VALUE_BASE_URL = "?part=lastValue";
 	private static final String GRAPH_PARAMETER = "&graph=";
-	private static final String APPLICATION_PARAMETER = "&application=";
-
-	/**
-        */
-	public Map<JavaMelodyLastValueGraphs, Double> scrap() throws ScrapExeption {
-		return scrap(null, JavaMelodyLastValueGraphs.values());
-	}
 
 	/**
         */
@@ -72,6 +65,7 @@ public class JavaMelodyScraper {
         */
 	private String downloadLastValueData(String url) throws ScrapExeption {
 		try {
+                        logger.debug("Get metrics" + url);
 			Request request = Request.Get(url).connectTimeout(TIMEOUT)
 					.socketTimeout(TIMEOUT);
 			HttpResponse response = request.execute().returnResponse();
@@ -99,9 +93,6 @@ public class JavaMelodyScraper {
 			if (--size > 0) {
 				sBuilder.append(",");
 			}
-		}
-		if (application != null) {
-			sBuilder.append(APPLICATION_PARAMETER);
 		}
 		return sBuilder.toString();
 	}

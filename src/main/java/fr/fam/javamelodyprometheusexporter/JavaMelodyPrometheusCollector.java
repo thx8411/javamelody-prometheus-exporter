@@ -61,44 +61,9 @@ public class JavaMelodyPrometheusCollector extends Collector {
 
 	/**
         */
-	private List<MetricFamilySamples> buildCollectorServerMetricFamilySamples()
-			throws ScrapExeption {
-		List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
-		Map<String, Map<JavaMelodyLastValueGraphs, Double>> scrapResults = scrapCollectorServer(applications);
-		Set<JavaMelodyLastValueGraphs> keySet = scrapResults.values()
-				.iterator().next().keySet();
-		for (JavaMelodyLastValueGraphs graph : keySet) {
-			GaugeMetricFamily gauge = new GaugeMetricFamily(NAMESPACE + "_"
-					+ graph.getParameterName(), "Help for "
-					+ graph.getParameterName(), Arrays.asList("application"));
-			for (String application : applications) {
-				gauge.addMetric(Arrays.asList(application),
-						scrapResults.get(application).get(graph));
-			}
-			mfs.add(gauge);
-		}
-		return mfs;
-	}
-
-	/**
-        */
 	private Map<JavaMelodyLastValueGraphs, Double> scrapSingleServer()
 			throws ScrapExeption {
 		logger.debug("Scrapping single server");
 		return scraper.scrap();
-	}
-
-	/**
-        */
-	private Map<String, Map<JavaMelodyLastValueGraphs, Double>> scrapCollectorServer(
-			String[] applications) throws ScrapExeption {
-		logger.debug("Scrapping collector server for application: "
-				+ Arrays.toString(applications));
-		Map<String, Map<JavaMelodyLastValueGraphs, Double>> scrapResults = new HashMap<String, Map<JavaMelodyLastValueGraphs, Double>>(
-				applications.length);
-		for (String application : applications) {
-			scrapResults.put(application, scraper.scrap(application));
-		}
-		return scrapResults;
 	}
 }
