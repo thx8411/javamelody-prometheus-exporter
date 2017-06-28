@@ -19,14 +19,11 @@ Afterwards just deploy the war file on an application server of your choice. (Te
 
 ### Example javamelody.properties
 
-	javamelody.url=https://<server running javamelody instance>
+	# Comma seperated list of application's melody monitoring url
+	# Credentials for basic authentification provided in urls
 
-	# Basic authentication credentials if necessary
-	javamelody.basicauth.username=
-	javamelody.basicauth.password=
+	# Example :
 
-	javamelody.collector.server=false
-
-	# Comma seperated list of applications (<application1>,<application2>)
-	javamelody.collector.applications=
-	
+	# javamelody.collector.applications= \
+	# https://user:password@app1.mydomain.com/app1/monitoring,\
+	# http://app2.mydomain.com/app2/monitoring	

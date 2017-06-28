@@ -5,5 +5,4 @@
 
 # javamelody.collector.applications= \
 # https://user:password@app1.mydomain.com/app1/monitoring,\
-# http://app2.mydomain.com/app2/monitorin
-#
+# http://app2.mydomain.com/app2/monitoring
