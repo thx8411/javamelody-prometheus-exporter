@@ -28,15 +28,13 @@ public class JavaMelodyScraper {
 
 	private Header authHeader = null;
 	private final String baseUrl;
-	private boolean collector;
 
-	public JavaMelodyScraper(String baseUrl, String basicAuthUser, String basicAuthPassword, boolean isCollector) {
+	public JavaMelodyScraper(String baseUrl, String basicAuthUser, String basicAuthPassword) {
 		if (basicAuthUser != null && basicAuthPassword != null) {
 			this.authHeader = new BasicHeader(BASIC_AUTH_HEADER_NAME, BASIC_AUTH_HEADER_VALUE +
 					buildBasicAuthHeaderValue(basicAuthUser, basicAuthPassword));
 		}
 		this.baseUrl = baseUrl;
-		this.collector = isCollector;
 	}
 
 	public Map<JavaMelodyLastValueGraphs, Double> scrap() throws ScrapExeption {
@@ -52,9 +50,6 @@ public class JavaMelodyScraper {
 	}
 
 	public Map<JavaMelodyLastValueGraphs, Double> scrap(String application, JavaMelodyLastValueGraphs... graphs) throws ScrapExeption {
-		if (collector && (application == null || application.length() <= 0) ) {
-			throw new ScrapExeption("Collector is configured, but no applications provided.");
-		}
 		Map<JavaMelodyLastValueGraphs, Double> result = new LinkedHashMap<JavaMelodyLastValueGraphs, Double>(graphs.length);
 		for (JavaMelodyLastValueGraphs graph : graphs) {
 			result.put(graph, -1.0);

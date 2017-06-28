@@ -4,7 +4,5 @@ javamelody.url=https://<server running javamelody instance>
 javamelody.basicauth.username=
 javamelody.basicauth.password=
 
-javamelody.collector.server=false
-
 # Comma seperated list of applications (<application1>,<application2>)
 javamelody.collector.applications=

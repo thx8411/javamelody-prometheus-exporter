@@ -20,20 +20,18 @@ public class JavaMelodyPrometheusCollector extends Collector {
 	public static final String NAMESPACE = "javamelody";
 
 	private JavaMelodyScraper scraper;
-	private boolean isJavaMelodyCollectorServer;
 	private String[] applications;
 
-	public JavaMelodyPrometheusCollector(String url, String username, String password, boolean isJavaMelodyCollectorServer, String... applications) {
+	public JavaMelodyPrometheusCollector(String url, String username, String password, String... applications) {
 		super();
-		this.isJavaMelodyCollectorServer = isJavaMelodyCollectorServer;
-		this.scraper = new JavaMelodyScraper(url, username, password, isJavaMelodyCollectorServer);
+		this.scraper = new JavaMelodyScraper(url, username, password);
 		this.applications = applications;
 	}
 
 	@Override
 	public List<MetricFamilySamples> collect() {
 		try {
-			return isJavaMelodyCollectorServer ? buildCollectorServerMetricFamilySamples() : buildSingleServerMetricFamilySamples();
+			return buildSingleServerMetricFamilySamples();
 		} catch (Exception e) {
 			logger.error("Error while collecting data.", e);
 			throw new IllegalStateException(e);
