@@ -29,6 +29,8 @@ public class MetricsServlet extends HttpServlet {
 		collector = new JavaMelodyPrometheusCollector(config.getUrl(), config.getBasicAuthUsername(), config.getBasicAuthPassword(), config.getCollectorApplications()).register();
 	}
 
+	/**
+        */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Writer writer = response.getWriter();

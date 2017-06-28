@@ -13,6 +13,8 @@ import de.florianschlag.javamelodyprometheusexporter.config.JavaMelodyLastValueG
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 
+/**
+*/
 public class JavaMelodyPrometheusCollector extends Collector {
 
 	private static final Logger logger = Logger.getLogger(JavaMelodyPrometheusCollector.class);
@@ -22,12 +24,16 @@ public class JavaMelodyPrometheusCollector extends Collector {
 	private JavaMelodyScraper scraper;
 	private String[] applications;
 
-	public JavaMelodyPrometheusCollector(String url, String username, String password, String... applications) {
+	/**
+	*/
+	public JavaMelodyPrometheusCollector(String... applications) {
 		super();
-		this.scraper = new JavaMelodyScraper(url, username, password);
+		this.scraper = new JavaMelodyScraper();
 		this.applications = applications;
 	}
 
+	/**
+	*/
 	@Override
 	public List<MetricFamilySamples> collect() {
 		try {
@@ -38,6 +44,8 @@ public class JavaMelodyPrometheusCollector extends Collector {
 		}
 	}
 
+	/**
+        */
 	private List<MetricFamilySamples> buildSingleServerMetricFamilySamples() throws ScrapExeption {
 		List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
 		Map<JavaMelodyLastValueGraphs, Double> scrapResults = scrapSingleServer();
@@ -47,6 +55,8 @@ public class JavaMelodyPrometheusCollector extends Collector {
 		return mfs;
 	}
 
+	/**
+        */
 	private List<MetricFamilySamples> buildCollectorServerMetricFamilySamples() throws ScrapExeption {
 		List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
 		Map<String, Map<JavaMelodyLastValueGraphs, Double>> scrapResults = scrapCollectorServer(applications);
@@ -61,11 +71,15 @@ public class JavaMelodyPrometheusCollector extends Collector {
 		return mfs;
 	}
 
+	/**
+        */
 	private Map<JavaMelodyLastValueGraphs, Double> scrapSingleServer() throws ScrapExeption {
 		logger.debug("Scrapping single server");
 		return scraper.scrap();
 	}
 
+	/**
+        */
 	private Map<String, Map<JavaMelodyLastValueGraphs, Double>> scrapCollectorServer(String[] applications) throws ScrapExeption {
 		logger.debug("Scrapping collector server for application: " + Arrays.toString(applications));
 		Map<String, Map<JavaMelodyLastValueGraphs, Double>> scrapResults = new HashMap<String, Map<JavaMelodyLastValueGraphs,Double>>(applications.length);

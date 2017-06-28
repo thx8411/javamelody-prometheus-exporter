@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -15,7 +17,11 @@ import org.apache.http.util.EntityUtils;
 
 import de.florianschlag.javamelodyprometheusexporter.config.JavaMelodyLastValueGraphs;
 
+/**
+*/
 public class JavaMelodyScraper {
+
+	private static final Logger logger = Logger.getLogger(JavaMelodyScraper.class);
 
 	private static final int TIMEOUT = 5000;
 
@@ -23,38 +29,32 @@ public class JavaMelodyScraper {
 	private static final String GRAPH_PARAMETER = "&graph=";
 	private static final String APPLICATION_PARAMETER = "&application=";
 
-	private static final String BASIC_AUTH_HEADER_NAME = "Authorization";
-	private static final String BASIC_AUTH_HEADER_VALUE = "Basic ";
-
-	private Header authHeader = null;
-	private final String baseUrl;
-
-	public JavaMelodyScraper(String baseUrl, String basicAuthUser, String basicAuthPassword) {
-		if (basicAuthUser != null && basicAuthPassword != null) {
-			this.authHeader = new BasicHeader(BASIC_AUTH_HEADER_NAME, BASIC_AUTH_HEADER_VALUE +
-					buildBasicAuthHeaderValue(basicAuthUser, basicAuthPassword));
-		}
-		this.baseUrl = baseUrl;
-	}
-
+	/**
+        */
 	public Map<JavaMelodyLastValueGraphs, Double> scrap() throws ScrapExeption {
 		return scrap(null, JavaMelodyLastValueGraphs.values());
 	}
 
+	/**
+        */
 	public Map<JavaMelodyLastValueGraphs, Double> scrap(String application) throws ScrapExeption {
 		return scrap(application, JavaMelodyLastValueGraphs.values());
 	}
 
+	/**
+        */
 	public Map<JavaMelodyLastValueGraphs, Double> scrap(JavaMelodyLastValueGraphs... graphs) throws ScrapExeption {
 		return scrap(null, graphs);
 	}
 
+	/**
+        */
 	public Map<JavaMelodyLastValueGraphs, Double> scrap(String application, JavaMelodyLastValueGraphs... graphs) throws ScrapExeption {
 		Map<JavaMelodyLastValueGraphs, Double> result = new LinkedHashMap<JavaMelodyLastValueGraphs, Double>(graphs.length);
 		for (JavaMelodyLastValueGraphs graph : graphs) {
 			result.put(graph, -1.0);
 		}
-		String downloadLastValueData = downloadLastValueData(buildLastValueUrl(baseUrl, application, result.keySet()));
+		String downloadLastValueData = downloadLastValueData(buildLastValueUrl(application, result.keySet()));
 		StringTokenizer rawResultTokens = new StringTokenizer(downloadLastValueData, ",");
 		for (JavaMelodyLastValueGraphs graph : result.keySet()) {
 			String token = rawResultTokens.nextToken();
@@ -64,15 +64,14 @@ public class JavaMelodyScraper {
 		return result;
 	}
 
+	/**
+        */
 	private String downloadLastValueData(String url) throws ScrapExeption {
 		try {
 			Request request = Request
 									.Get(url)
 									.connectTimeout(TIMEOUT)
 									.socketTimeout(TIMEOUT);
-			if (authHeader != null) {
-				request = request.addHeader(authHeader);
-			}
 			HttpResponse response = request
 								.execute()
 								.returnResponse();
@@ -86,16 +85,11 @@ public class JavaMelodyScraper {
 		}
 	}
 
-	private String buildBasicAuthHeaderValue(String username, String password) {
-		String userPassword = username + ":" + password;
-		return Base64.encodeBase64String(userPassword.getBytes());
-	}
+	/**
+        */
+	private String buildLastValueUrl(String application, Set<JavaMelodyLastValueGraphs> graphs) {
+		StringBuilder sBuilder = new StringBuilder(application);
 
-	private String buildLastValueUrl(String baseUrl, String application, Set<JavaMelodyLastValueGraphs> graphs) {
-		StringBuilder sBuilder = new StringBuilder(baseUrl);
-		if (!baseUrl.endsWith("/")) {
-			sBuilder.append("/");
-		}
 		sBuilder.append(LAST_VALUE_BASE_URL);
 		sBuilder.append(GRAPH_PARAMETER);
 		int size = graphs.size();
@@ -107,9 +101,7 @@ public class JavaMelodyScraper {
 		}
 		if (application != null) {
 			sBuilder.append(APPLICATION_PARAMETER);
-			sBuilder.append(application);
 		}
 		return sBuilder.toString();
 	}
-
 }
