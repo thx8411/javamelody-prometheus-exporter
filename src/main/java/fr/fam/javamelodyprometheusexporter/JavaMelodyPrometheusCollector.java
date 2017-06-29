@@ -1,11 +1,8 @@
 package fr.fam.javamelodyprometheusexporter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -14,15 +11,29 @@ import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 
 /**
+*
 */
 public class JavaMelodyPrometheusCollector extends Collector {
 
+    /**
+    *
+    */
     private static final Logger logger = Logger
             .getLogger(JavaMelodyPrometheusCollector.class);
 
+    /**
+    *
+    */
     public static final String NAMESPACE = "javamelody";
 
+    /**
+    *
+    */
     private JavaMelodyScraper scraper;
+
+    /**
+    *
+    */
     private String[] applications;
 
     /**
