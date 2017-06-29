@@ -18,32 +18,63 @@ import fr.fam.javamelodyprometheusexporter.config.JavaMelodyLastValueGraphs;
 */
 public class JavaMelodyScraper {
 
-    private static final Logger logger = Logger
+    /**
+    *
+    */
+    private static final Logger LOGGER = Logger
             .getLogger(JavaMelodyScraper.class);
 
+    /**
+    *
+    */
     private static final int TIMEOUT = 5000;
 
+    /**
+    *
+    */
+    private static final int HTTP_SUCCESS = 200;
+
+    /**
+    *
+    */
     private static final String LAST_VALUE_BASE_URL = "?part=lastValue";
+
+    /**
+    *
+    */
     private static final String GRAPH_PARAMETER = "&graph=";
 
     /**
-        */
-    public Map<JavaMelodyLastValueGraphs, Double> scrap(String application)
+    *
+    * @param application application
+    * @throws ScrapExeption ScrapExeption
+    * @return scrap
+    */
+    public final Map<JavaMelodyLastValueGraphs, Double> scrap(final String application)
             throws ScrapExeption {
         return scrap(application, JavaMelodyLastValueGraphs.values());
     }
 
     /**
-        */
-    public Map<JavaMelodyLastValueGraphs, Double> scrap(
+    *
+    * @param graphs graphs
+    * @throws ScrapExeption ScrapExeption
+    * @return Scrap
+    */
+    public final Map<JavaMelodyLastValueGraphs, Double> scrap(final
             JavaMelodyLastValueGraphs... graphs) throws ScrapExeption {
         return scrap(null, graphs);
     }
 
     /**
-        */
-    public Map<JavaMelodyLastValueGraphs, Double> scrap(String application,
-            JavaMelodyLastValueGraphs... graphs) throws ScrapExeption {
+    *
+    * @param application application
+    * @param graphs graphs
+    * @throws ScrapExeption ScrapExeption
+    * @return result
+    */
+    public final Map<JavaMelodyLastValueGraphs, Double> scrap(final String application,
+            final JavaMelodyLastValueGraphs... graphs) throws ScrapExeption {
         Map<JavaMelodyLastValueGraphs, Double> result = new LinkedHashMap<JavaMelodyLastValueGraphs, Double>(
                 graphs.length);
         for (JavaMelodyLastValueGraphs graph : graphs) {
@@ -62,15 +93,19 @@ public class JavaMelodyScraper {
     }
 
     /**
-        */
-    private String downloadLastValueData(String url) throws ScrapExeption {
+    *
+    * @param url url
+    * @throws ScrapExeption ScrapExeption
+    * @return string
+    */
+    private String downloadLastValueData(final String url) throws ScrapExeption {
         try {
-                        logger.debug("Get metrics" + url);
+                        LOGGER.debug("Get metrics" + url);
             Request request = Request.Get(url).connectTimeout(TIMEOUT)
                     .socketTimeout(TIMEOUT);
             HttpResponse response = request.execute().returnResponse();
             int responseCode = response.getStatusLine().getStatusCode();
-            if (responseCode == 200) {
+            if (responseCode == HTTP_SUCCESS) {
                 return EntityUtils.toString(response.getEntity());
             }
             throw new ScrapExeption("HTTP-Response code was " + responseCode);
@@ -80,9 +115,14 @@ public class JavaMelodyScraper {
     }
 
     /**
-        */
-    private String buildLastValueUrl(String application,
-            Set<JavaMelodyLastValueGraphs> graphs) {
+    *
+    * @param application application
+    * @param graphs graphs
+    * @throws ScrapExeption ScrapExeption
+    * @return string
+    */
+    private String buildLastValueUrl(final String application,
+            final Set<JavaMelodyLastValueGraphs> graphs) {
         StringBuilder sBuilder = new StringBuilder(application);
 
         sBuilder.append(LAST_VALUE_BASE_URL);

@@ -47,12 +47,15 @@ public class JavaMelodyConfig {
 
                 String rawApplications = props.getProperty(
                         PROPERTY_COLLECTOR_APPLICATIONS, null);
-                setCollectorApplications(rawApplications != null
-                        ? rawApplications.split(",")
-                        : null);
+                if (rawApplications != null) {
+                    setCollectorApplications(rawApplications.split(","));
+                } else {
+                    setCollectorApplications(null);
+                }
             } finally {
-                if (propsInputStream != null)
+                if (propsInputStream != null) {
                     propsInputStream.close();
+                }
             }
         } catch (IOException e) {
             LOGGER.error("Configuration failure", e);
