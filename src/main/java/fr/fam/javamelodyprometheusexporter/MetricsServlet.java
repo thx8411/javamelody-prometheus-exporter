@@ -18,37 +18,37 @@ import io.prometheus.client.exporter.common.TextFormat;
  * Servlet implementation class MetricsServlet
  */
 public class MetricsServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger logger = Logger.getLogger(MetricsServlet.class);
-	private static JavaMelodyConfig config = new JavaMelodyConfig();
+    private static final Logger logger = Logger.getLogger(MetricsServlet.class);
+    private static JavaMelodyConfig config = new JavaMelodyConfig();
 
-	private static final JavaMelodyPrometheusCollector collector;
+    private static final JavaMelodyPrometheusCollector collector;
 
-	static {
-		collector = new JavaMelodyPrometheusCollector(
-				config.getCollectorApplications()).register();
-	}
+    static {
+        collector = new JavaMelodyPrometheusCollector(
+                config.getCollectorApplications()).register();
+    }
 
-	/**
+    /**
         */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		Writer writer = response.getWriter();
-		try {
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        Writer writer = response.getWriter();
+        try {
 
-			response.setStatus(HttpServletResponse.SC_OK);
-			response.setContentType(TextFormat.CONTENT_TYPE_004);
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType(TextFormat.CONTENT_TYPE_004);
 
-			TextFormat.write004(writer,
-					Collections.enumeration(collector.collect()));
-			writer.flush();
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			logger.error("Failure during scrap", e);
-		} finally {
-			writer.close();
-		}
-	}
+            TextFormat.write004(writer,
+                    Collections.enumeration(collector.collect()));
+            writer.flush();
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            logger.error("Failure during scrap", e);
+        } finally {
+            writer.close();
+        }
+    }
 
 }

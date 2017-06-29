@@ -2,17 +2,17 @@ package fr.fam.javamelodyprometheusexporter;
 
 public class ScrapExeption extends Exception {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public ScrapExeption(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public ScrapExeption(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public ScrapExeption(String message) {
-		super(message);
-	}
+    public ScrapExeption(String message) {
+        super(message);
+    }
 
 }
