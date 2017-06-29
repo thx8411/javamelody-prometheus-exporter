@@ -50,7 +50,8 @@ public class JavaMelodyConfig {
                 if (rawApplications != null) {
                     setCollectorApplications(rawApplications.split(","));
                 } else {
-                    setCollectorApplications(null);
+                    LOGGER.error("Applications list empty");
+                    throw new IllegalStateException("Applications list empty");
                 }
             } finally {
                 if (propsInputStream != null) {
