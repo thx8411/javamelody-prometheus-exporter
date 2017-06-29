@@ -61,7 +61,7 @@ public enum JavaMelodyLastValueGraphs {
     *
     * @param pparameterName parameterName
     */
-    private JavaMelodyLastValueGraphs(final String pparameterName) {
+    JavaMelodyLastValueGraphs(final String pparameterName) {
         this.parameterName = pparameterName;
     }
 
