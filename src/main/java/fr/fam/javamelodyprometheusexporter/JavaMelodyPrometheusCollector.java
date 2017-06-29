@@ -18,7 +18,7 @@ public class JavaMelodyPrometheusCollector extends Collector {
     /**
     *
     */
-    private static final Logger logger = Logger
+    private static final Logger LOGGER = Logger
             .getLogger(JavaMelodyPrometheusCollector.class);
 
     /**
@@ -37,27 +37,32 @@ public class JavaMelodyPrometheusCollector extends Collector {
     private String[] applications;
 
     /**
+    *
+    * @param papplications application's urls list
     */
-    public JavaMelodyPrometheusCollector(String... applications) {
+    public JavaMelodyPrometheusCollector(final String... papplications) {
         super();
         this.scraper = new JavaMelodyScraper();
-        this.applications = applications;
+        this.applications = papplications;
     }
 
     /**
     */
     @Override
-    public List<MetricFamilySamples> collect() {
+    public final List<MetricFamilySamples> collect() {
         try {
             return buildSingleServerMetricFamilySamples();
         } catch (Exception e) {
-            logger.error("Error while collecting data.", e);
+            LOGGER.error("Error while collecting data.", e);
             throw new IllegalStateException(e);
         }
     }
 
     /**
-        */
+    *
+    * @throws ScrapExeption ScrapExeption
+    * @return mfs
+    */
     private List<MetricFamilySamples> buildSingleServerMetricFamilySamples()
             throws ScrapExeption {
         List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
@@ -71,10 +76,13 @@ public class JavaMelodyPrometheusCollector extends Collector {
     }
 
     /**
-        */
+    *
+    * @throws ScrapExeption ScrapExeption
+    * @return scrap
+    */
     private Map<JavaMelodyLastValueGraphs, Double> scrapSingleServer()
             throws ScrapExeption {
-        logger.debug("Scrapping single server");
+        LOGGER.debug("Scrapping single server");
         return scraper.scrap();
     }
 }
