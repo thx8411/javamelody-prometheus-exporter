@@ -15,25 +15,39 @@ import fr.fam.javamelodyprometheusexporter.config.JavaMelodyConfig;
 import io.prometheus.client.exporter.common.TextFormat;
 
 /**
- * Servlet implementation class MetricsServlet
- */
+*
+*/
 public class MetricsServlet extends HttpServlet {
+    /**
+    *
+    */
     private static final long serialVersionUID = 1L;
 
-    private static final Logger logger = Logger.getLogger(MetricsServlet.class);
-    private static JavaMelodyConfig config = new JavaMelodyConfig();
-
-    private static final JavaMelodyPrometheusCollector collector;
-
-    static {
-        collector = new JavaMelodyPrometheusCollector(
-                config.getCollectorApplications()).register();
-    }
+    /**
+    *
+    */
+    private static final Logger LOGGER = Logger.getLogger(MetricsServlet.class);
 
     /**
-        */
-    protected void doGet(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+    *
+    */
+    private static JavaMelodyConfig config = new JavaMelodyConfig();
+
+    /**
+    *
+    */
+    private static final JavaMelodyPrometheusCollector COLLECTOR = new JavaMelodyPrometheusCollector(
+                config.getCollectorApplications()).register();
+
+    /**
+    *
+    * @param request request
+    * @param response response
+    * @throws ServletException ServletException
+    * @throws IOException IOException
+    */
+    protected final void doGet(final HttpServletRequest request,
+            final HttpServletResponse response) throws ServletException, IOException {
         Writer writer = response.getWriter();
         try {
 
@@ -41,11 +55,11 @@ public class MetricsServlet extends HttpServlet {
             response.setContentType(TextFormat.CONTENT_TYPE_004);
 
             TextFormat.write004(writer,
-                    Collections.enumeration(collector.collect()));
+                    Collections.enumeration(COLLECTOR.collect()));
             writer.flush();
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            logger.error("Failure during scrap", e);
+            LOGGER.error("Failure during scrap", e);
         } finally {
             writer.close();
         }

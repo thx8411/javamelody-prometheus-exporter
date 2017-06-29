@@ -10,15 +10,30 @@ import org.apache.log4j.Logger;
 */
 public class JavaMelodyConfig {
 
-    private static final Logger logger = Logger
+    /**
+    *
+    */
+    private static final Logger LOGGER = Logger
             .getLogger(JavaMelodyConfig.class);
 
+    /**
+    *
+    */
     private static final String PROPERTY_FILENAME = "javamelody.properties";
+
+    /**
+    *
+    */
     private static final String PROPERTY_COLLECTOR_APPLICATIONS = "javamelody.collector.applications";
 
+    /**
+    *
+    */
     private String[] collectorApplications;
 
     /**
+    *
+    * @throws IllegalStateException IllegalStateException
     */
     public JavaMelodyConfig() {
         InputStream propsInputStream = null;
@@ -40,22 +55,26 @@ public class JavaMelodyConfig {
                     propsInputStream.close();
             }
         } catch (IOException e) {
-            logger.error("Configuration failure", e);
+            LOGGER.error("Configuration failure", e);
             throw new IllegalStateException("Configuration failure", e);
         }
-        logger.info("Using config: " + this.toString());
+        LOGGER.info("Using config: " + this.toString());
     }
 
     /**
+    *
+    * @return collectorApplications
     */
-    public String[] getCollectorApplications() {
+    public final String[] getCollectorApplications() {
         return collectorApplications;
     }
 
     /**
+    *
+    * @param pcollectorApplications pcollectorApplications
     */
-    public void setCollectorApplications(String[] collectorApplications) {
-        this.collectorApplications = collectorApplications;
+    public final void setCollectorApplications(final String[] pcollectorApplications) {
+        this.collectorApplications = pcollectorApplications;
     }
 
 }

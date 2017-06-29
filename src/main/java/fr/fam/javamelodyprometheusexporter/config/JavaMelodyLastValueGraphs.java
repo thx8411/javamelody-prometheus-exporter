@@ -1,11 +1,8 @@
 package fr.fam.javamelodyprometheusexporter.config;
 
 /**
- * usedPhysicalMemorySize, usedSwapSpaceSize, httpSessionsMeanAge
- * 
- * @author Florian Schlag <dev@florianschlag.de>
- *
- */
+*
+*/
 public enum JavaMelodyLastValueGraphs {
 
     HTTP_HITS_RATE("httpHitsRate"),
@@ -32,12 +29,23 @@ public enum JavaMelodyLastValueGraphs {
     SQL_SYSTEM_ERRORS("sqlSystemErrors"),
     OPEN_FILES("fileDescriptors");
 
-    String parameterName;
+    /**
+    *
+    */
+    private String parameterName;
 
-    private JavaMelodyLastValueGraphs(String parameterName) {
-        this.parameterName = parameterName;
+    /**
+    *
+    * @param pparameterName parameterName
+    */
+    private JavaMelodyLastValueGraphs(final String pparameterName) {
+        this.parameterName = pparameterName;
     }
 
+    /**
+    *
+    * @return parameterName
+    */
     public String getParameterName() {
         return parameterName;
     }
