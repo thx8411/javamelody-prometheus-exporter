@@ -1,8 +1,11 @@
 package fr.fam.melodyexporter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -51,7 +54,7 @@ public class MelodyCollector extends Collector {
     @Override
     public final List<MetricFamilySamples> collect() {
         try {
-            return buildSingleServerMetricFamilySamples();
+            return buildServerMetricFamilySamples();
         } catch (Exception e) {
             LOGGER.error("Error while collecting data.", e);
             throw new IllegalStateException(e);
@@ -63,14 +66,18 @@ public class MelodyCollector extends Collector {
     * @throws ScrapExeption ScrapExeption
     * @return mfs
     */
-    private List<MetricFamilySamples> buildSingleServerMetricFamilySamples()
+    private List<MetricFamilySamples> buildServerMetricFamilySamples()
             throws ScrapExeption {
         List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
-        Map<MelodyLastValueGraphs, Double> scrapResults = scrapSingleServer();
-        for (MelodyLastValueGraphs graph : scrapResults.keySet()) {
-            mfs.add(new GaugeMetricFamily(NAMESPACE + "_"
-                    + graph.getParameterName(), "Help for "
-                    + graph.getParameterName(), scrapResults.get(graph)));
+        Map<String, Map<MelodyLastValueGraphs, Double>> scrapResults = scrapServers();
+        Set<MelodyLastValueGraphs> keySet = scrapResults.values().iterator().next().keySet();
+        for (MelodyLastValueGraphs graph : keySet) {
+            GaugeMetricFamily gauge = new GaugeMetricFamily(NAMESPACE + "_" + graph.getParameterName(),
+                "Help for " + graph.getParameterName(), Arrays.asList("application"));
+            for (String application : applications) {
+                gauge.addMetric(Arrays.asList(application), scrapResults.get(application).get(graph));
+            }
+            mfs.add(gauge);
         }
         return mfs;
     }
@@ -80,9 +87,14 @@ public class MelodyCollector extends Collector {
     * @throws ScrapExeption ScrapExeption
     * @return scrap
     */
-    private Map<MelodyLastValueGraphs, Double> scrapSingleServer()
+    private Map<String, Map<MelodyLastValueGraphs, Double>> scrapServers()
             throws ScrapExeption {
-        LOGGER.debug("Scrapping single server");
-        return scraper.scrap();
+        LOGGER.debug("Scrapping collector server for application: " + Arrays.toString(applications) + "...");
+        Map<String, Map<MelodyLastValueGraphs, Double>> scrapResults =
+            new HashMap<String, Map<MelodyLastValueGraphs, Double>>(applications.length);
+        for (String application : applications) {
+            scrapResults.put(application, scraper.scrap(application));
+        }
+        return scrapResults;
     }
 }
