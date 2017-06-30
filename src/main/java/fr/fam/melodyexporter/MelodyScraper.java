@@ -75,8 +75,10 @@ public class MelodyScraper {
                 downloadLastValueData, ",");
         for (MelodyLastValueGraphs graph : result.keySet()) {
             String token = rawResultTokens.nextToken();
-            double value = Double.parseDouble(token);
-            result.put(graph, value);
+            Double value = Double.parseDouble(token);
+            if (!value.isNaN()) {
+                result.put(graph, value);
+            }
         }
         return result;
     }
