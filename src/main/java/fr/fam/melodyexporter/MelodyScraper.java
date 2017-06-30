@@ -91,7 +91,7 @@ public class MelodyScraper {
     */
     private String downloadLastValueData(final String url) throws ScrapExeption {
         try {
-                        LOGGER.debug("Get metrics" + url);
+                        LOGGER.debug("Get metrics " + url);
             Request request = Request.Get(url).connectTimeout(TIMEOUT)
                     .socketTimeout(TIMEOUT);
             HttpResponse response = request.execute().returnResponse();
