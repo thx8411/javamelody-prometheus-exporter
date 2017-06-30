@@ -57,17 +57,6 @@ public class MelodyScraper {
 
     /**
     *
-    * @param graphs graphs
-    * @throws ScrapExeption ScrapExeption
-    * @return Scrap
-    */
-    public final Map<MelodyLastValueGraphs, Double> scrap(final
-            MelodyLastValueGraphs... graphs) throws ScrapExeption {
-        return scrap(null, graphs);
-    }
-
-    /**
-    *
     * @param application application
     * @param graphs graphs
     * @throws ScrapExeption ScrapExeption
