@@ -36,6 +36,9 @@ public class MelodyConfig {
     * @throws IllegalStateException IllegalStateException
     */
     public MelodyConfig() {
+
+        LOGGER.debug("Reading config...");
+
         InputStream propsInputStream = null;
         try {
             try {
@@ -48,6 +51,7 @@ public class MelodyConfig {
                 String rawApplications = props.getProperty(
                         PROPERTY_COLLECTOR_APPLICATIONS, null);
                 if (rawApplications != null) {
+                    LOGGER.debug("Applications list found : " + rawApplications);
                     setCollectorApplications(rawApplications.split(","));
                 } else {
                     LOGGER.error("Applications list empty");
