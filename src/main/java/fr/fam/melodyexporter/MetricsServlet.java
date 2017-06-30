@@ -1,4 +1,4 @@
-package fr.fam.javamelodyprometheusexporter;
+package fr.fam.melodyexporter;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import fr.fam.javamelodyprometheusexporter.config.JavaMelodyConfig;
+import fr.fam.melodyexporter.config.MelodyConfig;
 import io.prometheus.client.exporter.common.TextFormat;
 
 /**
@@ -31,12 +31,12 @@ public class MetricsServlet extends HttpServlet {
     /**
     *
     */
-    private static JavaMelodyConfig config = new JavaMelodyConfig();
+    private static MelodyConfig config = new MelodyConfig();
 
     /**
     *
     */
-    private static final JavaMelodyPrometheusCollector COLLECTOR = new JavaMelodyPrometheusCollector(
+    private static final MelodyCollector COLLECTOR = new MelodyCollector(
                 config.getCollectorApplications()).register();
 
     /**

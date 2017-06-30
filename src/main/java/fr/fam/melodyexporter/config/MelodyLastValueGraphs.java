@@ -1,9 +1,9 @@
-package fr.fam.javamelodyprometheusexporter.config;
+package fr.fam.melodyexporter.config;
 
 /**
 *
 */
-public enum JavaMelodyLastValueGraphs {
+public enum MelodyLastValueGraphs {
 
     /** */
     HTTP_HITS_RATE("httpHitsRate"),
@@ -61,7 +61,7 @@ public enum JavaMelodyLastValueGraphs {
     *
     * @param pparameterName parameterName
     */
-    JavaMelodyLastValueGraphs(final String pparameterName) {
+    MelodyLastValueGraphs(final String pparameterName) {
         this.parameterName = pparameterName;
     }
 
@@ -72,5 +72,4 @@ public enum JavaMelodyLastValueGraphs {
     public String getParameterName() {
         return parameterName;
     }
-
 }

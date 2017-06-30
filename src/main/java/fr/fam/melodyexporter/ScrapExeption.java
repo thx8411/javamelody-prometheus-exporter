@@ -1,4 +1,4 @@
-package fr.fam.javamelodyprometheusexporter;
+package fr.fam.melodyexporter;
 
 /**
 *
@@ -26,5 +26,4 @@ public class ScrapExeption extends Exception {
     public ScrapExeption(final String message) {
         super(message);
     }
-
 }

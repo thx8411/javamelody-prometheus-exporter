@@ -1,4 +1,4 @@
-package fr.fam.javamelodyprometheusexporter;
+package fr.fam.melodyexporter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,20 +6,20 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import fr.fam.javamelodyprometheusexporter.config.JavaMelodyLastValueGraphs;
+import fr.fam.melodyexporter.config.MelodyLastValueGraphs;
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 
 /**
 *
 */
-public class JavaMelodyPrometheusCollector extends Collector {
+public class MelodyCollector extends Collector {
 
     /**
     *
     */
     private static final Logger LOGGER = Logger
-            .getLogger(JavaMelodyPrometheusCollector.class);
+            .getLogger(MelodyCollector.class);
 
     /**
     *
@@ -29,7 +29,7 @@ public class JavaMelodyPrometheusCollector extends Collector {
     /**
     *
     */
-    private JavaMelodyScraper scraper;
+    private MelodyScraper scraper;
 
     /**
     *
@@ -40,9 +40,9 @@ public class JavaMelodyPrometheusCollector extends Collector {
     *
     * @param papplications application's urls list
     */
-    public JavaMelodyPrometheusCollector(final String... papplications) {
+    public MelodyCollector(final String... papplications) {
         super();
-        this.scraper = new JavaMelodyScraper();
+        this.scraper = new MelodyScraper();
         this.applications = papplications;
     }
 
@@ -66,8 +66,8 @@ public class JavaMelodyPrometheusCollector extends Collector {
     private List<MetricFamilySamples> buildSingleServerMetricFamilySamples()
             throws ScrapExeption {
         List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
-        Map<JavaMelodyLastValueGraphs, Double> scrapResults = scrapSingleServer();
-        for (JavaMelodyLastValueGraphs graph : scrapResults.keySet()) {
+        Map<MelodyLastValueGraphs, Double> scrapResults = scrapSingleServer();
+        for (MelodyLastValueGraphs graph : scrapResults.keySet()) {
             mfs.add(new GaugeMetricFamily(NAMESPACE + "_"
                     + graph.getParameterName(), "Help for "
                     + graph.getParameterName(), scrapResults.get(graph)));
@@ -80,7 +80,7 @@ public class JavaMelodyPrometheusCollector extends Collector {
     * @throws ScrapExeption ScrapExeption
     * @return scrap
     */
-    private Map<JavaMelodyLastValueGraphs, Double> scrapSingleServer()
+    private Map<MelodyLastValueGraphs, Double> scrapSingleServer()
             throws ScrapExeption {
         LOGGER.debug("Scrapping single server");
         return scraper.scrap();

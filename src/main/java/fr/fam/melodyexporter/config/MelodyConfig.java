@@ -1,4 +1,4 @@
-package fr.fam.javamelodyprometheusexporter.config;
+package fr.fam.melodyexporter.config;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,13 +8,13 @@ import org.apache.log4j.Logger;
 
 /**
 */
-public class JavaMelodyConfig {
+public class MelodyConfig {
 
     /**
     *
     */
     private static final Logger LOGGER = Logger
-            .getLogger(JavaMelodyConfig.class);
+            .getLogger(MelodyConfig.class);
 
     /**
     *
@@ -35,7 +35,7 @@ public class JavaMelodyConfig {
     *
     * @throws IllegalStateException IllegalStateException
     */
-    public JavaMelodyConfig() {
+    public MelodyConfig() {
         InputStream propsInputStream = null;
         try {
             try {
@@ -80,5 +80,4 @@ public class JavaMelodyConfig {
     public final void setCollectorApplications(final String[] pcollectorApplications) {
         this.collectorApplications = pcollectorApplications;
     }
-
 }
