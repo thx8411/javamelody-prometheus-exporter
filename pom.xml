@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.fam</groupId>
-	<artifactId>melody-exporter</artifactId>
+	<artifactId>melodyexporter</artifactId>
 	<packaging>war</packaging>
 	<version>2.0</version>
-	<name>melody-exporter Maven Webapp</name>
+	<name>melodyexporter Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
@@ -42,7 +42,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>melody-exporter</finalName>
+		<finalName>melodyexporter</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
