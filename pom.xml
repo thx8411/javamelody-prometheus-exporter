@@ -4,7 +4,7 @@
 	<groupId>fr.fam</groupId>
 	<artifactId>melodyexporter</artifactId>
 	<packaging>war</packaging>
-	<version>2.0</version>
+	<version>1.0</version>
 	<name>melodyexporter Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>

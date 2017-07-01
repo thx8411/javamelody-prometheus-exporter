@@ -1,4 +1,4 @@
-# JavaMelody Prometheus Exporter
+# MelodyExporter
 
 This is a prometheus exporter (<https://prometheus.io/docs/instrumenting/exporters>) for the JavaEE monitoring tool [JavaMelody](https://github.com/javamelody/javamelody/wiki). It was created to get a deeper insight of the data JavaMelody collects, especially over time without the need to change existing application code to full prometheus monitoring.
 
@@ -8,14 +8,16 @@ Instead of using Go or Python this exporter uses Java because you probably alrea
 
 ## How it works
 
-This exporter uses the JavaMelody [lastValue external API](https://github.com/javamelody/javamelody/wiki/ExternalAPI#png-and-lastvalue) to pull data and transforms it to Prometheus gauges. Exporting is done via a simple Java servlet. No rocket since.
+This exporter uses the JavaMelody [lastValue external API](https://github.com/javamelody/javamelody/wiki/ExternalAPI#png-and-lastvalue) to pull data and transforms it to Prometheus gauges. Exporting is done via a simple Java servlet.
 
 ## How to use it
 The build is maven based so a `mvn package` will create the war file in the `target` folder.
 
-Before doing this you have to create your own `javamelody.properties` file and put it in your classpath (with Tomcat, use ${catalina.home}/common/classes/)
+Before doing this you have to create your own `melodyexporter.properties` file and put it in your classpath (with Tomcat, use ${catalina.home}/common/classes/)
 
-Afterwards just deploy the war file on an application server of your choice. (Tested with Tomcat 7 & 8, minimum Java 6)
+Afterwards just deploy the war file on an application server or web container of your choice. (Tested with Tomcat 7 & Payara 4.1.1, Java EE 6 or above required)
+
+MelodyExporter also provides an exposed javamelody servlet for self monitoring.
 
 ### Example javamelody.properties
 
