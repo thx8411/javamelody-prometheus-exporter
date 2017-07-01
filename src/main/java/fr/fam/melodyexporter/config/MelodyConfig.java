@@ -19,7 +19,7 @@ public class MelodyConfig {
     /**
     *
     */
-    private static final String PROPERTY_FILENAME = "javamelody.properties";
+    private static final String PROPERTY_FILENAME = "melodyexporter.properties";
 
     /**
     *
