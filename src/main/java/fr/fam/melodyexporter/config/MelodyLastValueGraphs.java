@@ -52,9 +52,7 @@ public enum MelodyLastValueGraphs {
     /** */
     OPEN_FILES("fileDescriptors");
 
-    /**
-    *
-    */
+    /** */
     private String parameterName;
 
     /**
@@ -62,7 +60,7 @@ public enum MelodyLastValueGraphs {
     * @param pparameterName parameterName
     */
     MelodyLastValueGraphs(final String pparameterName) {
-        this.parameterName = pparameterName;
+        parameterName = pparameterName;
     }
 
     /**

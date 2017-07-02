@@ -18,25 +18,16 @@ import io.prometheus.client.GaugeMetricFamily;
 */
 public class MelodyCollector extends Collector {
 
-    /**
-    *
-    */
-    private static final Logger LOGGER = Logger
-            .getLogger(MelodyCollector.class);
+    /** */
+    private static final Logger LOGGER = Logger.getLogger(MelodyCollector.class);
 
-    /**
-    *
-    */
+    /** */
     public static final String NAMESPACE = "javamelody";
 
-    /**
-    *
-    */
+    /** */
     private MelodyScraper scraper;
 
-    /**
-    *
-    */
+    /** */
     private String[] applications;
 
     /**
@@ -45,14 +36,16 @@ public class MelodyCollector extends Collector {
     */
     public MelodyCollector(final String... papplications) {
         super();
-        this.scraper = new MelodyScraper();
-        this.applications = papplications;
+        scraper = new MelodyScraper();
+        applications = papplications;
     }
 
     /**
+    *
+    * @throws IllegalStateException
     */
     @Override
-    public final List<MetricFamilySamples> collect() {
+    public final List<MetricFamilySamples> collect() throws IllegalStateException {
         try {
             return buildServerMetricFamilySamples();
         } catch (Exception e) {
@@ -71,9 +64,12 @@ public class MelodyCollector extends Collector {
         List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
         Map<String, Map<MelodyLastValueGraphs, Double>> scrapResults = scrapServers();
         Set<MelodyLastValueGraphs> keySet = scrapResults.values().iterator().next().keySet();
+
         for (MelodyLastValueGraphs graph : keySet) {
+
             GaugeMetricFamily gauge = new GaugeMetricFamily(NAMESPACE + "_" + graph.getParameterName(),
                 "Help for " + graph.getParameterName(), Arrays.asList("application"));
+
             for (String application : applications) {
                 gauge.addMetric(Arrays.asList(application), scrapResults.get(application).get(graph));
             }
@@ -90,8 +86,10 @@ public class MelodyCollector extends Collector {
     private Map<String, Map<MelodyLastValueGraphs, Double>> scrapServers()
             throws ScrapExeption {
         LOGGER.debug("Scrapping collector server for application: " + Arrays.toString(applications) + "...");
+
         Map<String, Map<MelodyLastValueGraphs, Double>> scrapResults =
             new HashMap<String, Map<MelodyLastValueGraphs, Double>>(applications.length);
+
         for (String application : applications) {
             scrapResults.put(application, scraper.scrap(application));
         }

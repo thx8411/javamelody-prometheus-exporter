@@ -5,9 +5,7 @@ package fr.fam.melodyexporter;
 */
 public class ScrapExeption extends Exception {
 
-    /**
-     *
-     */
+    /** */
     private static final long serialVersionUID = 1L;
 
     /**

@@ -18,24 +18,17 @@ import io.prometheus.client.exporter.common.TextFormat;
 *
 */
 public class MetricsServlet extends HttpServlet {
-    /**
-    *
-    */
+
+    /** */
     private static final long serialVersionUID = 1L;
 
-    /**
-    *
-    */
+    /** */
     private static final Logger LOGGER = Logger.getLogger(MetricsServlet.class);
 
-    /**
-    *
-    */
+    /** */
     private static MelodyConfig config = new MelodyConfig();
 
-    /**
-    *
-    */
+    /** */
     private static final MelodyCollector COLLECTOR = new MelodyCollector(
                 config.getCollectorApplications()).register();
 
@@ -46,16 +39,13 @@ public class MetricsServlet extends HttpServlet {
     * @throws ServletException ServletException
     * @throws IOException IOException
     */
-    protected final void doGet(final HttpServletRequest request,
-            final HttpServletResponse response) throws ServletException, IOException {
+    protected final void doGet(final HttpServletRequest request, final HttpServletResponse response)
+            throws ServletException, IOException {
         Writer writer = response.getWriter();
         try {
-
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType(TextFormat.CONTENT_TYPE_004);
-
-            TextFormat.write004(writer,
-                    Collections.enumeration(COLLECTOR.collect()));
+            TextFormat.write004(writer, Collections.enumeration(COLLECTOR.collect()));
             writer.flush();
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

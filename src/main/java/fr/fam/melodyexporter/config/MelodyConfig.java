@@ -7,34 +7,27 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 /**
+*
 */
 public class MelodyConfig {
 
-    /**
-    *
-    */
+    /** */
     private static final Logger LOGGER = Logger.getLogger(MelodyConfig.class);
 
-    /**
-    *
-    */
+    /** */
     private static final String SETTINGS_FILENAME = "melodyexporter.properties";
 
-    /**
-    *
-    */
+    /** */
     private static final String PROPERTY_COLLECTOR_APPLICATIONS = "javamelody.collector.applications";
 
-    /**
-    *
-    */
+    /** */
     private String[] collectorApplications;
 
     /**
     *
     * @throws IllegalStateException IllegalStateException
     */
-    public MelodyConfig() {
+    public MelodyConfig() throws IllegalStateException {
 
         LOGGER.debug("Reading config...");
 
@@ -47,11 +40,10 @@ public class MelodyConfig {
                         .getResourceAsStream(SETTINGS_FILENAME);
                 props.load(propsInputStream);
 
-                String rawApplications = props.getProperty(
-                        PROPERTY_COLLECTOR_APPLICATIONS, null);
+                String rawApplications = props.getProperty(PROPERTY_COLLECTOR_APPLICATIONS, null);
                 if (rawApplications != null) {
                     LOGGER.debug("Applications list found : " + rawApplications);
-                    collectorApplications=(rawApplications.split(","));
+                    collectorApplications = (rawApplications.split(","));
                 } else {
                     LOGGER.error("Applications list empty");
                     throw new IllegalStateException("Applications list empty");
