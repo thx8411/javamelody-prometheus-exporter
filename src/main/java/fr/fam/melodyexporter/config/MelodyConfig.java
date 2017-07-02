@@ -13,13 +13,12 @@ public class MelodyConfig {
     /**
     *
     */
-    private static final Logger LOGGER = Logger
-            .getLogger(MelodyConfig.class);
+    private static final Logger LOGGER = Logger.getLogger(MelodyConfig.class);
 
     /**
     *
     */
-    private static final String PROPERTY_FILENAME = "melodyexporter.properties";
+    private static final String SETTINGS_FILENAME = "melodyexporter.properties";
 
     /**
     *
@@ -45,14 +44,14 @@ public class MelodyConfig {
                 Properties props = new Properties();
                 propsInputStream = Thread.currentThread()
                         .getContextClassLoader()
-                        .getResourceAsStream(PROPERTY_FILENAME);
+                        .getResourceAsStream(SETTINGS_FILENAME);
                 props.load(propsInputStream);
 
                 String rawApplications = props.getProperty(
                         PROPERTY_COLLECTOR_APPLICATIONS, null);
                 if (rawApplications != null) {
                     LOGGER.debug("Applications list found : " + rawApplications);
-                    setCollectorApplications(rawApplications.split(","));
+                    collectorApplications=(rawApplications.split(","));
                 } else {
                     LOGGER.error("Applications list empty");
                     throw new IllegalStateException("Applications list empty");
@@ -66,7 +65,7 @@ public class MelodyConfig {
             LOGGER.error("Configuration failure", e);
             throw new IllegalStateException("Configuration failure", e);
         }
-        LOGGER.info("Using config: " + this.toString());
+        LOGGER.info("Config loaded");
     }
 
     /**
@@ -75,13 +74,5 @@ public class MelodyConfig {
     */
     public final String[] getCollectorApplications() {
         return collectorApplications;
-    }
-
-    /**
-    *
-    * @param pcollectorApplications pcollectorApplications
-    */
-    public final void setCollectorApplications(final String[] pcollectorApplications) {
-        this.collectorApplications = pcollectorApplications;
     }
 }
