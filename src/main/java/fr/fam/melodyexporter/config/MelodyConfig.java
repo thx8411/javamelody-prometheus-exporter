@@ -21,6 +21,9 @@ public class MelodyConfig {
     private static final String PROPERTY_COLLECTOR_APPLICATIONS = "javamelody.collector.applications";
 
     /** */
+    private static int timeout = 5000;
+
+    /** */
     private String[] applications;
 
     /**
@@ -58,6 +61,14 @@ public class MelodyConfig {
             throw new IllegalStateException("Configuration failure", e);
         }
         LOGGER.info("Config loaded");
+    }
+
+    /**
+    *
+    * @return timeout
+    */
+    public final int getTimeout() {
+        return timeout;
     }
 
     /**

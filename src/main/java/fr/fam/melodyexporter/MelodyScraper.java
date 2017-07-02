@@ -13,6 +13,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.util.EntityUtils;
 
+import fr.fam.melodyexporter.config.MelodyConfig;
 import fr.fam.melodyexporter.config.MelodyLastValueGraphs;
 
 /**
@@ -23,13 +24,21 @@ public class MelodyScraper {
     private static final Logger LOGGER = Logger.getLogger(MelodyScraper.class);
 
     /** */
-    private static final int TIMEOUT = 5000;
+    private MelodyConfig config;
 
     /** */
     private static final String LAST_VALUE_BASE_URL = "?part=lastValue";
 
     /** */
     private static final String GRAPH_PARAMETER = "&graph=";
+
+    /**
+    *
+    * @param pconfig Configuration
+    */
+    public MelodyScraper(final MelodyConfig pconfig) {
+        config = pconfig;
+    }
 
     /**
     *
@@ -80,8 +89,8 @@ public class MelodyScraper {
     private String downloadLastValueData(final String url) throws ScrapExeption {
         try {
                         LOGGER.debug("Get metrics " + url);
-            Request request = Request.Get(url).connectTimeout(TIMEOUT)
-                    .socketTimeout(TIMEOUT);
+            Request request = Request.Get(url).connectTimeout(config.getTimeout())
+                    .socketTimeout(config.getTimeout());
             HttpResponse response = request.execute().returnResponse();
             int responseCode = response.getStatusLine().getStatusCode();
             if (responseCode == HttpStatus.SC_OK) {

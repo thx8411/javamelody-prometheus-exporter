@@ -40,9 +40,9 @@ public class MelodyCollector extends Collector {
     */
     public MelodyCollector(final MelodyConfig pconfig) {
         super();
-        scraper = new MelodyScraper();
         config = pconfig;
         applications = config.getApplications();
+        scraper = new MelodyScraper(config);
     }
 
     /**
