@@ -30,7 +30,7 @@ public class MetricsServlet extends HttpServlet {
 
     /** */
     private static final MelodyCollector COLLECTOR = new MelodyCollector(
-                config.getCollectorApplications()).register();
+                config.getApplications()).register();
 
     /**
     *

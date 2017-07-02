@@ -21,7 +21,7 @@ public class MelodyConfig {
     private static final String PROPERTY_COLLECTOR_APPLICATIONS = "javamelody.collector.applications";
 
     /** */
-    private String[] collectorApplications;
+    private String[] applications;
 
     /**
     *
@@ -43,7 +43,7 @@ public class MelodyConfig {
                 String rawApplications = props.getProperty(PROPERTY_COLLECTOR_APPLICATIONS, null);
                 if (rawApplications != null) {
                     LOGGER.debug("Applications list found : " + rawApplications);
-                    collectorApplications = (rawApplications.split(","));
+                    applications = (rawApplications.split(","));
                 } else {
                     LOGGER.error("Applications list empty");
                     throw new IllegalStateException("Applications list empty");
@@ -62,9 +62,9 @@ public class MelodyConfig {
 
     /**
     *
-    * @return collectorApplications
+    * @return applications
     */
-    public final String[] getCollectorApplications() {
-        return collectorApplications;
+    public final String[] getApplications() {
+        return applications;
     }
 }
