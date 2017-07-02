@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import fr.fam.melodyexporter.config.MelodyConfig;
 import fr.fam.melodyexporter.config.MelodyLastValueGraphs;
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
@@ -28,16 +29,20 @@ public class MelodyCollector extends Collector {
     private MelodyScraper scraper;
 
     /** */
+    private MelodyConfig config;
+
+    /** */
     private String[] applications;
 
     /**
     *
-    * @param papplications application's urls list
+    * @param pconfig configuration
     */
-    public MelodyCollector(final String... papplications) {
+    public MelodyCollector(final MelodyConfig pconfig) {
         super();
         scraper = new MelodyScraper();
-        applications = papplications;
+        config = pconfig;
+        applications = config.getApplications();
     }
 
     /**
