@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.yaml.snakeyaml.Yaml;
+
+// TMP
+//import java.util.Objects;
+//
+
 import org.apache.log4j.Logger;
 
 /**
@@ -19,6 +25,9 @@ public class MelodyConfig {
 
     /** */
     private static final String PROPERTY_TIMEOUT = "javamelody.timeout";
+
+    /** */
+    private static final String PROPERTY_APPLICATIONS_FILE = "javamelody.applications.file";
 
     /** */
     private static final String PROPERTY_APPLICATIONS = "javamelody.applications";
@@ -63,6 +72,33 @@ public class MelodyConfig {
                     }
                 }
 
+                // Get applications file and open it
+                String rawApplicationsFile = props.getProperty(PROPERTY_APPLICATIONS_FILE, null);
+                if (rawApplicationsFile != null) {
+                    InputStream appsInputStream = Thread.currentThread()
+                            .getContextClassLoader()
+                            .getResourceAsStream(rawApplicationsFile);
+                    if (appsInputStream != null) {
+                        // Parse applications file
+                        Yaml yaml = new Yaml();
+                        Object data = yaml.load(appsInputStream);
+                        LOGGER.debug("Loaded configuration : " + data);
+                        //
+                        // TO DO
+                        //
+                        appsInputStream.close();
+                        LOGGER.info("Applications file <" + rawApplicationsFile + "> loaded");
+                    } else {
+                        LOGGER.error("Can't open applications file : " + rawApplicationsFile);
+                        throw new IllegalStateException("Can't open applications file");
+                    }
+                } else {
+                    LOGGER.error("Applications file name missing");
+                    throw new IllegalStateException("Applications file name missing");
+                }
+
+// obsolete, will be removed
+
                 // Get applications list
                 String rawApplications = props.getProperty(PROPERTY_APPLICATIONS, null);
                 if (rawApplications != null) {
@@ -72,6 +108,9 @@ public class MelodyConfig {
                     LOGGER.error("Applications list empty");
                     throw new IllegalStateException("Applications list empty");
                 }
+
+// end of obsolete
+
             } finally {
                 if (propsInputStream != null) {
                     propsInputStream.close();

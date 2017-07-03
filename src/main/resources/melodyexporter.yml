@@ -1,0 +1,72 @@
+#
+---
+#
+
+# javamelody applications to scrap
+
+applications:
+
+#
+# Model :
+#
+# application-name
+#   url:
+#   login:
+#   password:
+#   labels:
+#     - label1
+#     - label2
+#     - ...
+#   metrics:
+#     - metric1
+#     - metric2
+#     - ...
+#
+# where metrics can be :
+#
+# httpHitsRate
+# httpMeanTimes
+# httpSystemErrors
+# tomcatBusyThreads
+# tomcatBytesReceived
+# tomcatBytesSent
+# usedMemory
+# cpu
+# httpSessions
+# activeThreads
+# activeConnections
+# usedConnections
+# gc
+# threadCount
+# loadedClassesCount
+# usedNonHeapMemory
+# usedPhysicalMemorySize
+# usedSwapSpaceSize
+# httpSessionsMeanAge
+# sqlHitsRate
+# sqlMeanTimes
+# sqlSystemErrors
+# fileDescriptors
+#
+
+  melodytest:
+    url: "http://latitude:8080/melodytest/monitoring"
+    labels:
+      - test
+      - application
+    metrics:
+      - cpu
+      - usedMemory
+
+  melodyexporter:
+    url: "http://latitude:8080/melodyexporter/monitoring"
+    labels:
+      - test
+      - infrastructure
+    metrics:
+      - cpu
+      - usedMemory
+
+#
+...
+#

@@ -1,6 +1,8 @@
 # timeout for metrics scraping
 javamelody.timeout=5000
 
+# applications to scrap
+javamelody.applications.file=melodyexporter.yml
 
 # Comma seperated list of application's melody monitoring url
 # Credentials for basic authentification provided in urls
