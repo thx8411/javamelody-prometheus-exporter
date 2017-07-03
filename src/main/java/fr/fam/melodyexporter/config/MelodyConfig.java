@@ -18,10 +18,16 @@ public class MelodyConfig {
     private static final String SETTINGS_FILENAME = "melodyexporter.properties";
 
     /** */
-    private static final String PROPERTY_COLLECTOR_APPLICATIONS = "javamelody.collector.applications";
+    private static final String PROPERTY_TIMEOUT = "javamelody.timeout";
 
     /** */
-    private static int timeout = 5000;
+    private static final String PROPERTY_APPLICATIONS = "javamelody.applications";
+
+    /** */
+    private static final int DEFAULT_TIMEOUT = 5000;
+
+    /** */
+    private static int timeout;
 
     /** */
     private String[] applications;
@@ -37,13 +43,28 @@ public class MelodyConfig {
         InputStream propsInputStream = null;
         try {
             try {
+                // load properties file
                 Properties props = new Properties();
                 propsInputStream = Thread.currentThread()
                         .getContextClassLoader()
                         .getResourceAsStream(SETTINGS_FILENAME);
                 props.load(propsInputStream);
 
-                String rawApplications = props.getProperty(PROPERTY_COLLECTOR_APPLICATIONS, null);
+                // Get timeout
+                String rawTimeout = props.getProperty(PROPERTY_TIMEOUT, null);
+                if (rawTimeout != null) {
+                    LOGGER.debug("Timeout found : " + rawTimeout);
+                    try {
+                        timeout = Integer.parseInt(rawTimeout);
+                        LOGGER.info("Using timeout : " + timeout);
+                    } catch (NumberFormatException e) {
+                        timeout = DEFAULT_TIMEOUT;
+                        LOGGER.warn("Timeout isn't a number : " + rawTimeout);
+                    }
+                }
+
+                // Get applications list
+                String rawApplications = props.getProperty(PROPERTY_APPLICATIONS, null);
                 if (rawApplications != null) {
                     LOGGER.debug("Applications list found : " + rawApplications);
                     applications = (rawApplications.split(","));
