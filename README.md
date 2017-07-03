@@ -21,8 +21,8 @@ MelodyExporter also provides an exposed javamelody servlet for self monitoring.
 
 ### Example javamelody.properties
 
-        # Timeout for metrics scraping
-        javamelody.timeout=5000
+	# Timeout for metrics scraping
+	javamelody.timeout=5000
 
 	# Comma seperated list of application's melody monitoring url
 	# Credentials for basic authentification provided in urls
