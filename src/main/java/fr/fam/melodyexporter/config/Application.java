@@ -134,7 +134,7 @@ public class Application {
 
         // browsing labels
         s.append("labels=[");
-        for(String l : labels) {
+        for (String l : labels) {
             s.append(l);
             s.append(", ");
         }
@@ -143,7 +143,7 @@ public class Application {
 
         // browsing metrics
         s.append("metrics=[");
-        for(String m : metrics) {
+        for (String m : metrics) {
             s.append(m);
             s.append(", ");
         }

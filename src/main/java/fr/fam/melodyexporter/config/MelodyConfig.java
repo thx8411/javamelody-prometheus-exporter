@@ -35,6 +35,7 @@ public class MelodyConfig {
     /** */
     private static int timeout;
 
+    /** */
     private static Applications applications;
 
     /**
@@ -85,7 +86,7 @@ public class MelodyConfig {
                         Yaml yaml = new Yaml(new Constructor(Applications.class));
                         applications = (Applications) yaml.load(appsInputStream);
 
-                        for (Application application : applications.getApplications() ) {
+                        for (Application application : applications.getApplications()) {
                             LOGGER.debug("Loaded configuration : " + application);
                         }
 
