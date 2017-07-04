@@ -44,8 +44,8 @@ MelodyExporter also provides an exposed javamelody servlet for self monitoring.
 	#   login:
 	#   password:
 	#   labels:
-	#     - label1
-	#     - label2
+	#     - "label1=value1"
+	#     - "label2=value2"
 	#     - ...
 	#   metrics:
 	#     - metric1
@@ -86,7 +86,7 @@ MelodyExporter also provides an exposed javamelody servlet for self monitoring.
   	  login:
   	  password:
   	  labels:
-    	  - monitoring
+    	  - "env=monitoring"
   	  metrics:
     	  - cpu
     	  - usedMemory
