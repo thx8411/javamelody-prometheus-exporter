@@ -1,7 +1,6 @@
 package fr.fam.melodyexporter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,15 +75,30 @@ public class MelodyCollector extends Collector {
         Map<String, Map<MelodyLastValueGraphs, Double>> scrapResults = scrapServers();
         Set<MelodyLastValueGraphs> keySet = scrapResults.values().iterator().next().keySet();
 
+        //
+        // TODO : keep application defined metrics only in keyset
+        //
+
         for (MelodyLastValueGraphs graph : keySet) {
 
-            GaugeMetricFamily gauge = new GaugeMetricFamily(NAMESPACE + "_" + graph.getParameterName(),
-                "Help for " + graph.getParameterName(), Arrays.asList("application"));
+             for (Application application : applications.getApplications()) {
 
-            for (Application application : applications.getApplications()) {
-                gauge.addMetric(Arrays.asList(application.getName()), scrapResults.get(application.getName()).get(graph));
+                // extract labels
+                List<String> labelNames = new ArrayList<String>();
+                List<String> labelValues = new ArrayList<String>();
+                labelNames.add("application");
+                labelValues.add(application.getName());
+                for (String s : application.getLabels()) {
+                    labelNames.add(s.split("=")[0]);
+                    labelValues.add(s.split("=")[1]);
+                }
+
+                GaugeMetricFamily gauge = new GaugeMetricFamily(NAMESPACE + "_" + graph.getParameterName(),
+                    "Help for " + graph.getParameterName(), labelNames);
+
+                gauge.addMetric(labelValues, scrapResults.get(application.getName()).get(graph));
+                mfs.add(gauge);
             }
-            mfs.add(gauge);
         }
         return mfs;
     }
