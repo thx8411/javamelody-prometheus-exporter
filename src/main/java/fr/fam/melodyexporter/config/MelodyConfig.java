@@ -49,7 +49,7 @@ public class MelodyConfig {
         try {
             try {
                 // load properties file
-                LOGGER.debug("Reading Properties...");
+                LOGGER.info("Reading Properties...");
 
                 Properties props = new Properties();
                 propsInputStream = Thread.currentThread()

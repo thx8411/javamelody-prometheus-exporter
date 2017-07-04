@@ -115,7 +115,7 @@ public class Application {
     * @param pmetrics application metrics
     */
     public final void setMetrics(final String[] pmetrics) {
-        metrics = metrics;
+        metrics = pmetrics;
     }
 
     /**
@@ -124,6 +124,32 @@ public class Application {
     */
     @Override
     public final String toString() {
-        return "Applications{name=" + name + ",url=" + url + "}";
+        StringBuilder s = new StringBuilder();
+
+        s.append("Applications{");
+        s.append("name=" + name + ", ");
+        s.append("url=" + url + ", ");
+        s.append("login=" + login + ", ");
+        s.append("password=" + "*******" + ", ");
+
+        // browsing labels
+        s.append("labels=[");
+        for(String l : labels) {
+            s.append(l);
+            s.append(", ");
+        }
+        s.append("]");
+        s.append(", ");
+
+        // browsing metrics
+        s.append("metrics=[");
+        for(String m : metrics) {
+            s.append(m);
+            s.append(", ");
+        }
+        s.append("]");
+        s.append("}");
+
+        return s.toString();
     }
 }

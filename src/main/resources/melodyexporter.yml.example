@@ -13,8 +13,8 @@ applications:
 #   login:
 #   password:
 #   labels:
-#     - label1
-#     - label2
+#     - "label1=value1"
+#     - "label2=value2"
 #     - ...
 #   metrics:
 #     - metric1
@@ -55,7 +55,7 @@ applications:
   login:
   password:
   labels:
-    - monitoring
+    - "env=monitoring"
   metrics:
     - cpu
     - usedMemory
