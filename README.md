@@ -19,16 +19,79 @@ Afterwards just deploy the war file on an application server or web container of
 
 MelodyExporter also provides an exposed javamelody servlet for self monitoring.
 
-### Example javamelody.properties
+### Example melodyexporter.properties
 
 	# Timeout for metrics scraping
 	javamelody.timeout=5000
 
-	# Comma seperated list of application's melody monitoring url
-	# Credentials for basic authentification provided in urls
+	# applications to scrap in a yaml file (see yaml example)
+	javamelody.applications.file=melodyexporter.yml
 
-	# Example :
+### Example melodyexporter.yml
 
-	# javamelody.applications= \
-	# https://user:password@app1.mydomain.com/app1/monitoring,\
-	# http://app2.mydomain.com/app2/monitoring	
+	# java melody applications to scrap
+	---
+	#
+	
+	applications:
+	
+	#
+	# Model :
+	#
+	#-
+	#   name:
+	#   url:
+	#   login:
+	#   password:
+	#   labels:
+	#     - label1
+	#     - label2
+	#     - ...
+	#   metrics:
+	#     - metric1
+	#     - metric2
+	#     - ...
+	#
+	# where metrics can be :
+	#
+	# httpHitsRate
+	# httpMeanTimes
+	# httpSystemErrors
+	# tomcatBusyThreads
+	# tomcatBytesReceived
+	# tomcatBytesSent
+	# usedMemory
+	# cpu
+	# httpSessions
+	# activeThreads
+	# activeConnections
+	# usedConnections
+	# gc
+	# threadCount
+	# loadedClassesCount
+	# usedNonHeapMemory
+	# usedPhysicalMemorySize
+	# usedSwapSpaceSize
+	# httpSessionsMeanAge
+	# sqlHitsRate
+	# sqlMeanTimes
+	# sqlSystemErrors
+	# fileDescriptors
+	#   
+	
+	# predefined entry for self monitoring
+	-
+  	  name: melodyexporter
+  	  url: "http://localhost:8080/melodyexporter/monitoring"
+  	  login:
+  	  password:
+  	  labels:
+    	  - monitoring
+  	  metrics:
+    	  - cpu
+    	  - usedMemory
+	
+	# 
+	...
+	# 
+

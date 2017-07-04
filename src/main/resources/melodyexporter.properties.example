@@ -1,14 +1,5 @@
 # timeout for metrics scraping
 javamelody.timeout=5000
 
-# applications to scrap
+# applications to scrap in a yaml file (see yaml example)
 javamelody.applications.file=melodyexporter.yml
-
-# Comma seperated list of application's melody monitoring url
-# Credentials for basic authentification provided in urls
-
-# Example :
-
-# javamelody.applications= \
-# https://user:password@app1.mydomain.com/app1/monitoring,\
-# http://app2.mydomain.com/app2/monitoring

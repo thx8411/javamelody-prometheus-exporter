@@ -3,9 +3,9 @@ package fr.fam.melodyexporter.config;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.List;
 
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 import org.apache.log4j.Logger;
 
@@ -35,25 +35,22 @@ public class MelodyConfig {
     /** */
     private static int timeout;
 
-    private static List<Application> applications;
-
-// obsolete, will be removed
-    /** */
-//    private String[] applications;
-//
+    private static Applications applications;
 
     /**
     *
     * @throws IllegalStateException IllegalStateException
     */
     public MelodyConfig() throws IllegalStateException {
-
         LOGGER.debug("Reading config...");
 
         InputStream propsInputStream = null;
+
         try {
             try {
                 // load properties file
+                LOGGER.debug("Reading Properties...");
+
                 Properties props = new Properties();
                 propsInputStream = Thread.currentThread()
                         .getContextClassLoader()
@@ -74,6 +71,8 @@ public class MelodyConfig {
                 }
 
                 // Get applications file and open it
+                LOGGER.debug("Reading applications file...");
+
                 String rawApplicationsFile = props.getProperty(PROPERTY_APPLICATIONS_FILE, null);
                 if (rawApplicationsFile != null) {
                     InputStream appsInputStream = Thread.currentThread()
@@ -81,12 +80,15 @@ public class MelodyConfig {
                             .getResourceAsStream(rawApplicationsFile);
                     if (appsInputStream != null) {
                         // Parse applications file
-                        Yaml yaml = new Yaml();
-                        applications = (List<Application>) yaml.load(appsInputStream);
-                        LOGGER.debug("Loaded configuration : " + applications);
-                        //
-                        // TO DO
-                        //
+                        LOGGER.debug("Parsing yaml file...");
+
+                        Yaml yaml = new Yaml(new Constructor(Applications.class));
+                        applications = (Applications) yaml.load(appsInputStream);
+
+                        for (Application application : applications.getApplications() ) {
+                            LOGGER.debug("Loaded configuration : " + application);
+                        }
+
                         appsInputStream.close();
                         LOGGER.info("Applications file <" + rawApplicationsFile + "> loaded");
                     } else {
@@ -97,23 +99,6 @@ public class MelodyConfig {
                     LOGGER.error("Applications file name missing");
                     throw new IllegalStateException("Applications file name missing");
                 }
-
-// obsolete, will be removed
-
-/*
-                // Get applications list
-                String rawApplications = props.getProperty(PROPERTY_APPLICATIONS, null);
-                if (rawApplications != null) {
-                    LOGGER.debug("Applications list found : " + rawApplications);
-                    applications = (rawApplications.split(","));
-                } else {
-                    LOGGER.error("Applications list empty");
-                    throw new IllegalStateException("Applications list empty");
-                }
-*/
-
-// end of obsolete
-
             } finally {
                 if (propsInputStream != null) {
                     propsInputStream.close();
@@ -123,7 +108,7 @@ public class MelodyConfig {
             LOGGER.error("Configuration failure", e);
             throw new IllegalStateException("Configuration failure", e);
         }
-        LOGGER.info("Config loaded");
+        LOGGER.info("Configuration loaded");
     }
 
     /**
@@ -139,20 +124,7 @@ public class MelodyConfig {
     * @return applications
     */
 
-    public final List<Application> getApplications() {
+    public final Applications getApplications() {
         return applications;
     }
-
-
-// obsolete, will be removed
-    /**
-    *
-    * @return applications
-    */
-/*
-    public final String[] getApplications() {
-        return applications;
-    }
-*/
-//
 }

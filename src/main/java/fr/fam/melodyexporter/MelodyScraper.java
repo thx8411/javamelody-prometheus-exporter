@@ -15,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 
 import fr.fam.melodyexporter.config.MelodyConfig;
 import fr.fam.melodyexporter.config.MelodyLastValueGraphs;
+import fr.fam.melodyexporter.config.Application;
 
 /**
 */
@@ -46,7 +47,7 @@ public class MelodyScraper {
     * @throws ScrapExeption ScrapExeption
     * @return scrap
     */
-    public final Map<MelodyLastValueGraphs, Double> scrap(final String application)
+    public final Map<MelodyLastValueGraphs, Double> scrap(final Application application)
             throws ScrapExeption {
         return scrap(application, MelodyLastValueGraphs.values());
     }
@@ -58,7 +59,7 @@ public class MelodyScraper {
     * @throws ScrapExeption ScrapExeption
     * @return result
     */
-    public final Map<MelodyLastValueGraphs, Double> scrap(final String application,
+    public final Map<MelodyLastValueGraphs, Double> scrap(final Application application,
             final MelodyLastValueGraphs... graphs) throws ScrapExeption {
 
         Map<MelodyLastValueGraphs, Double> result = new LinkedHashMap<MelodyLastValueGraphs, Double>(graphs.length);
@@ -109,10 +110,10 @@ public class MelodyScraper {
     * @throws ScrapExeption ScrapExeption
     * @return string
     */
-    private String buildLastValueUrl(final String application,
+    private String buildLastValueUrl(final Application application,
             final Set<MelodyLastValueGraphs> graphs) {
 
-        StringBuilder sBuilder = new StringBuilder(application);
+        StringBuilder sBuilder = new StringBuilder(application.getUrl());
 
         sBuilder.append(LAST_VALUE_BASE_URL);
         sBuilder.append(GRAPH_PARAMETER);
