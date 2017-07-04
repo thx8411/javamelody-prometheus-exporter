@@ -3,12 +3,9 @@ package fr.fam.melodyexporter.config;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.List;
 
 import org.yaml.snakeyaml.Yaml;
-
-// TMP
-//import java.util.Objects;
-//
 
 import org.apache.log4j.Logger;
 
@@ -38,8 +35,12 @@ public class MelodyConfig {
     /** */
     private static int timeout;
 
+    private static List<Application> applications;
+
+// obsolete, will be removed
     /** */
-    private String[] applications;
+//    private String[] applications;
+//
 
     /**
     *
@@ -81,8 +82,8 @@ public class MelodyConfig {
                     if (appsInputStream != null) {
                         // Parse applications file
                         Yaml yaml = new Yaml();
-                        Object data = yaml.load(appsInputStream);
-                        LOGGER.debug("Loaded configuration : " + data);
+                        applications = (List<Application>) yaml.load(appsInputStream);
+                        LOGGER.debug("Loaded configuration : " + applications);
                         //
                         // TO DO
                         //
@@ -99,6 +100,7 @@ public class MelodyConfig {
 
 // obsolete, will be removed
 
+/*
                 // Get applications list
                 String rawApplications = props.getProperty(PROPERTY_APPLICATIONS, null);
                 if (rawApplications != null) {
@@ -108,6 +110,7 @@ public class MelodyConfig {
                     LOGGER.error("Applications list empty");
                     throw new IllegalStateException("Applications list empty");
                 }
+*/
 
 // end of obsolete
 
@@ -135,7 +138,21 @@ public class MelodyConfig {
     *
     * @return applications
     */
+
+    public final List<Application> getApplications() {
+        return applications;
+    }
+
+
+// obsolete, will be removed
+    /**
+    *
+    * @return applications
+    */
+/*
     public final String[] getApplications() {
         return applications;
     }
+*/
+//
 }

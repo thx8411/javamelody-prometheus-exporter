@@ -4,12 +4,11 @@
 
 # javamelody applications to scrap
 
-applications:
-
 #
 # Model :
 #
-# application-name
+# application:
+#   name:
 #   url:
 #   login:
 #   password:
@@ -49,23 +48,25 @@ applications:
 # fileDescriptors
 #
 
-  melodytest:
-    url: "http://latitude:8080/melodytest/monitoring"
-    labels:
-      - test
-      - application
-    metrics:
-      - cpu
-      - usedMemory
+application:
+  name: melodytest
+  url: "http://latitude:8080/melodytest/monitoring"
+  labels:
+    - test
+    - application
+  metrics:
+    - cpu
+    - usedMemory
 
-  melodyexporter:
-    url: "http://latitude:8080/melodyexporter/monitoring"
-    labels:
-      - test
-      - infrastructure
-    metrics:
-      - cpu
-      - usedMemory
+application:
+  name: melodyexporter
+  url: "http://latitude:8080/melodyexporter/monitoring"
+  labels:
+    - test
+    - infrastructure
+  metrics:
+    - cpu
+    - usedMemory
 
 #
 ...
