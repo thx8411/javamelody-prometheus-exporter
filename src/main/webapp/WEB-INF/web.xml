@@ -6,6 +6,7 @@
     <display-name>MetricsServlet</display-name>
     <servlet-name>MetricsServlet</servlet-name>
     <servlet-class>fr.fam.melodyexporter.MetricsServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>MetricsServlet</servlet-name>
