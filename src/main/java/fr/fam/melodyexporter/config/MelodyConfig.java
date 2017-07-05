@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -101,10 +100,10 @@ public class MelodyConfig {
 
                             // check metrics
                             for (String s : application.getMetrics()) {
-                               Boolean known=false;
+                               Boolean known = false;
                                for (MelodyLastValueGraphs g : MelodyLastValueGraphs.values()) {
                                    if (g.getParameterName().equals(s)) {
-                                       known=true;
+                                       known = true;
                                    }
                                }
                                if (!known) {

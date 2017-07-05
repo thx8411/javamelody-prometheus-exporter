@@ -9,7 +9,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import fr.fam.melodyexporter.config.MelodyConfig;
-import fr.fam.melodyexporter.config.MelodyLastValueGraphs;
 import fr.fam.melodyexporter.config.Applications;
 import fr.fam.melodyexporter.config.Application;
 import io.prometheus.client.Collector;
@@ -72,14 +71,10 @@ public class MelodyCollector extends Collector {
         LOGGER.debug("Building samples...");
 
         List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
-        Map<String, Map<MelodyLastValueGraphs, Double>> scrapResults = scrapServers();
-        Set<MelodyLastValueGraphs> keySet = scrapResults.values().iterator().next().keySet();
+        Map<String, Map<String, Double>> scrapResults = scrapServers();
+        Set<String> keySet = scrapResults.values().iterator().next().keySet();
 
-        //
-        // TODO : keep application defined metrics only in keyset
-        //
-
-        for (MelodyLastValueGraphs graph : keySet) {
+        for (String graph : keySet) {
 
              for (Application application : applications.getApplications()) {
 
@@ -93,8 +88,8 @@ public class MelodyCollector extends Collector {
                     labelValues.add(s.split("=")[1]);
                 }
 
-                GaugeMetricFamily gauge = new GaugeMetricFamily(NAMESPACE + "_" + graph.getParameterName(),
-                    "Help for " + graph.getParameterName(), labelNames);
+                GaugeMetricFamily gauge = new GaugeMetricFamily(NAMESPACE + "_" + graph,
+                    "Help for " + graph, labelNames);
 
                 gauge.addMetric(labelValues, scrapResults.get(application.getName()).get(graph));
                 mfs.add(gauge);
@@ -108,12 +103,12 @@ public class MelodyCollector extends Collector {
     * @throws ScrapExeption ScrapExeption
     * @return scrap
     */
-    private Map<String, Map<MelodyLastValueGraphs, Double>> scrapServers()
+    private Map<String, Map<String, Double>> scrapServers()
             throws ScrapExeption {
         LOGGER.debug("Scrapping servers...");
 
-        Map<String, Map<MelodyLastValueGraphs, Double>> scrapResults =
-            new HashMap<String, Map<MelodyLastValueGraphs, Double>>(applications.getApplications().size());
+        Map<String, Map<String, Double>> scrapResults =
+            new HashMap<String, Map<String, Double>>(applications.getApplications().size());
 
         for (Application application : applications.getApplications()) {
             scrapResults.put(application.getName(), scraper.scrap(application));
