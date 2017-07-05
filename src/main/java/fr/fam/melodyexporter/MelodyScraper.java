@@ -57,7 +57,7 @@ public class MelodyScraper {
 
         String downloadLastValueData = downloadLastValueData(buildLastValueUrl(application));
 
-        if (downloadLastValueData != null ) {
+        if (downloadLastValueData != null) {
 
             StringTokenizer rawResultTokens = new StringTokenizer(downloadLastValueData, ",");
 
