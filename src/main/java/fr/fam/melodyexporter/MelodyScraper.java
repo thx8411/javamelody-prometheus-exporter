@@ -1,6 +1,6 @@
 package fr.fam.melodyexporter;
 
-import java.io.IOException;
+import java.lang.Exception;
 import java.util.NoSuchElementException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -113,8 +113,10 @@ public class MelodyScraper {
                 LOGGER.warn("HTTP-Response code was " + responseCode + " for " + url);
                 return null;
             }
-        } catch (IOException e) {
-            throw new ScrapException("Exception while downloading: " + url, e);
+        // we catch all exception to keep the app running
+        } catch (Exception e) {
+            LOGGER.warn("Exception while downloading: " + url, e);
+            return null;
         }
     }
 

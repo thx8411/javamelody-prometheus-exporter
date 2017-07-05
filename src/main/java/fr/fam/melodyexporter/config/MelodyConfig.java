@@ -87,6 +87,8 @@ public class MelodyConfig {
                         Yaml yaml = new Yaml(new Constructor(Applications.class));
                         applications = (Applications) yaml.load(appsInputStream);
 
+                        LOGGER.debug("Parse done");
+
                         for (Application application : applications.getApplications()) {
 
                             // check label format : name=value
