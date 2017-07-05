@@ -8,9 +8,12 @@ import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 
 import fr.fam.melodyexporter.config.MelodyConfig;
@@ -55,7 +58,7 @@ public class MelodyScraper {
             result.put(graph, -1.0);
         }
 
-        String downloadLastValueData = downloadLastValueData(buildLastValueUrl(application));
+        String downloadLastValueData = downloadLastValueData(application, buildLastValueUrl(application));
 
         if (downloadLastValueData != null) {
 
@@ -81,15 +84,27 @@ public class MelodyScraper {
 
     /**
     *
+    * @param application application
     * @param url url
     * @throws ScrapException ScrapException
     * @return string
     */
-    private String downloadLastValueData(final String url) throws ScrapException {
+    private String downloadLastValueData(final Application application, final String url) throws ScrapException {
+        Header authHeader;
+
         try {
                         LOGGER.debug("Get metrics " + url);
-            Request request = Request.Get(url).connectTimeout(config.getTimeout())
+            Request request = Request.Get(url)
+                    .connectTimeout(config.getTimeout())
                     .socketTimeout(config.getTimeout());
+
+            // authentification
+            if (application.getLogin() != null && application.getPassword() != null) {
+                authHeader = new BasicHeader("Authorization", "Basic"
+                    + buildBasicAuthHeaderValue(application.getLogin(), application.getPassword()));
+                request = request.addHeader(authHeader);
+            }
+
             HttpResponse response = request.execute().returnResponse();
             int responseCode = response.getStatusLine().getStatusCode();
             if (responseCode == HttpStatus.SC_OK) {
@@ -101,6 +116,17 @@ public class MelodyScraper {
         } catch (IOException e) {
             throw new ScrapException("Exception while downloading: " + url, e);
         }
+    }
+
+    /**
+    *
+    * @param login login
+    * @param password password
+    * @return base64 encoded credentials
+    */
+    private String buildBasicAuthHeaderValue(final String login, final String password) {
+        String credentials = login + ":" + password;
+        return Base64.encodeBase64String(credentials.getBytes());
     }
 
     /**
