@@ -3,6 +3,8 @@ package fr.fam.melodyexporter.config;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -87,6 +89,30 @@ public class MelodyConfig {
                         applications = (Applications) yaml.load(appsInputStream);
 
                         for (Application application : applications.getApplications()) {
+
+                            // check label format : name=value
+                            Pattern pattern = Pattern.compile("[a-z_A-Z0-9]*=[a-z_A-Z0-9]*");
+                            for (String s : application.getLabels()) {
+                                if (!pattern.matcher(s).matches()) {
+                                    LOGGER.error("Wrong label : " + application.getName() + "." + s);
+                                    throw new IllegalStateException("Wrong label : " + application.getName() + "." + s);
+                                }
+                            }
+
+                            // check metrics
+                            for (String s : application.getMetrics()) {
+                               Boolean known=false;
+                               for (MelodyLastValueGraphs g : MelodyLastValueGraphs.values()) {
+                                   if (g.getParameterName().equals(s)) {
+                                       known=true;
+                                   }
+                               }
+                               if (!known) {
+                                   LOGGER.error("Unknown metric : " + application.getName() + "." + s);
+                                   throw new IllegalStateException("Unknown metric : " + application.getName() + "." + s);
+                               }
+                            }
+
                             LOGGER.debug("Loaded configuration : " + application);
                         }
 
