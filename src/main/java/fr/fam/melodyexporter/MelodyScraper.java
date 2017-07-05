@@ -43,11 +43,11 @@ public class MelodyScraper {
     /**
     *
     * @param application application
-    * @throws ScrapExeption ScrapExeption
+    * @throws ScrapException ScrapException
     * @return result
     */
     public final Map<String, Double> scrap(final Application application)
-            throws ScrapExeption {
+            throws ScrapException {
 
         Map<String, Double> result = new LinkedHashMap<String, Double>(application.getMetrics().length);
 
@@ -82,10 +82,10 @@ public class MelodyScraper {
     /**
     *
     * @param url url
-    * @throws ScrapExeption ScrapExeption
+    * @throws ScrapException ScrapException
     * @return string
     */
-    private String downloadLastValueData(final String url) throws ScrapExeption {
+    private String downloadLastValueData(final String url) throws ScrapException {
         try {
                         LOGGER.debug("Get metrics " + url);
             Request request = Request.Get(url).connectTimeout(config.getTimeout())
@@ -99,14 +99,14 @@ public class MelodyScraper {
                 return null;
             }
         } catch (IOException e) {
-            throw new ScrapExeption("Exception while downloading: " + url, e);
+            throw new ScrapException("Exception while downloading: " + url, e);
         }
     }
 
     /**
     *
     * @param application application
-    * @throws ScrapExeption ScrapExeption
+    * @throws ScrapException ScrapException
     * @return string
     */
     private String buildLastValueUrl(final Application application) {

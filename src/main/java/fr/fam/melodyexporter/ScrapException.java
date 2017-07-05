@@ -3,7 +3,7 @@ package fr.fam.melodyexporter;
 /**
 *
 */
-public class ScrapExeption extends Exception {
+public class ScrapException extends Exception {
 
     /** */
     private static final long serialVersionUID = 1L;
@@ -13,7 +13,7 @@ public class ScrapExeption extends Exception {
     * @param message message
     * @param cause   cause
     */
-    public ScrapExeption(final String message, final Throwable cause) {
+    public ScrapException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -21,7 +21,7 @@ public class ScrapExeption extends Exception {
     *
     * @param message message
     */
-    public ScrapExeption(final String message) {
+    public ScrapException(final String message) {
         super(message);
     }
 }

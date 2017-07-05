@@ -63,11 +63,11 @@ public class MelodyCollector extends Collector {
 
     /**
     *
-    * @throws ScrapExeption ScrapExeption
+    * @throws ScrapException ScrapException
     * @return mfs
     */
     private List<MetricFamilySamples> buildServerMetricFamilySamples()
-            throws ScrapExeption {
+            throws ScrapException {
         LOGGER.debug("Building samples...");
 
         List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
@@ -100,11 +100,11 @@ public class MelodyCollector extends Collector {
 
     /**
     *
-    * @throws ScrapExeption ScrapExeption
+    * @throws ScrapException ScrapException
     * @return scrap
     */
     private Map<String, Map<String, Double>> scrapServers()
-            throws ScrapExeption {
+            throws ScrapException {
         LOGGER.debug("Scrapping servers...");
 
         Map<String, Map<String, Double>> scrapResults =
