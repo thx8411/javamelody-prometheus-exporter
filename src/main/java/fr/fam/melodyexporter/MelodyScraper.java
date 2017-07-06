@@ -45,24 +45,22 @@ public class MelodyScraper {
     /**
     *
     * @param application application
-    * @throws ScrapException ScrapException
-    * @return result
+    * @return mapped metrics <name, value>
     */
-    public final Map<String, Double> scrap(final Application application)
-            throws ScrapException {
-
+    public final Map<String, Double> scrap(final Application application) {
+        // result to return
         Map<String, Double> result = new LinkedHashMap<String, Double>(application.getMetrics().length);
-
+        // init result with empty values
         for (String graph : application.getMetrics()) {
             result.put(graph, -1.0);
         }
 
-        String downloadLastValueData = downloadLastValueData(application, buildLastValueUrl(application));
+        // get the metrics
+        String downloadLastValueData = downloadLastValueData(application);
 
+        // parse the metrics if we have some
         if (downloadLastValueData != null) {
-
             StringTokenizer rawResultTokens = new StringTokenizer(downloadLastValueData, ",");
-
             for (String graph : result.keySet()) {
                 try {
                     String token = rawResultTokens.nextToken();
@@ -84,29 +82,34 @@ public class MelodyScraper {
     /**
     *
     * @param application application
-    * @param url url
-    * @throws ScrapException ScrapException
-    * @return string
+    * @return The javamelody http response or null if the request failed
     */
-    private String downloadLastValueData(final Application application, final String url) throws ScrapException {
+    private String downloadLastValueData(final Application application) {
         Header authHeader;
+        String url = buildLastValueUrl(application);
+
+        LOGGER.debug("Get metrics " + url);
 
         try {
-                        LOGGER.debug("Get metrics " + url);
+            // build the http request
             Request request = Request.Get(url)
                     .connectTimeout(config.getTimeout())
                     .socketTimeout(config.getTimeout());
 
-            // authentification
+            // create basic authentification header if needed
             if (application.getLogin() != null && application.getPassword() != null) {
                 authHeader = new BasicHeader("Authorization", "Basic"
                     + buildBasicAuthHeaderValue(application.getLogin(), application.getPassword()));
                 request = request.addHeader(authHeader);
             }
 
+            // request
             HttpResponse response = request.execute().returnResponse();
+
+            // check http response status
             int responseCode = response.getStatusLine().getStatusCode();
             if (responseCode == HttpStatus.SC_OK) {
+                LOGGER.debug("HTTP-Response OK ");
                 return EntityUtils.toString(response.getEntity());
             } else {
                 LOGGER.warn("HTTP-Response code was " + responseCode + " for " + url);
@@ -121,6 +124,8 @@ public class MelodyScraper {
 
     /**
     *
+    * Encode credentials in base64
+    *
     * @param login login
     * @param password password
     * @return base64 encoded credentials
@@ -132,8 +137,9 @@ public class MelodyScraper {
 
     /**
     *
+    * Build the javamelody request url
+    *
     * @param application application
-    * @throws ScrapException ScrapException
     * @return string
     */
     private String buildLastValueUrl(final Application application) {

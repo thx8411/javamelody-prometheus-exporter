@@ -1,10 +1,9 @@
 package fr.fam.melodyexporter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
@@ -48,66 +47,33 @@ public class MelodyCollector extends Collector {
     */
     @Override
     public final List<MetricFamilySamples> collect() throws IllegalStateException {
-        LOGGER.debug("Collect...");
-
-        try {
-            return buildServerMetricFamilySamples();
-        } catch (Exception e) {
-            LOGGER.error("Error while collecting data.", e);
-            throw new IllegalStateException(e);
-        }
-    }
-
-    /**
-    *
-    * @throws ScrapException ScrapException
-    * @return mfs
-    */
-    private List<MetricFamilySamples> buildServerMetricFamilySamples()
-            throws ScrapException {
         LOGGER.debug("Building samples...");
 
         List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
-        Map<String, Map<String, Double>> scrapResults = scrapServers();
-        Set<String> keySet = scrapResults.values().iterator().next().keySet();
 
-        for (String graph : keySet) {
+        // for each app
+        for (Application application : applications.getApplications()) {
+            // extract labels
+            List<String> labelNames = new ArrayList<String>();
+            List<String> labelValues = new ArrayList<String>();
+            for (String s : application.getLabels()) {
+                labelNames.add(s.split("=")[0]);
+                labelValues.add(s.split("=")[1]);
+            }
 
-             for (Application application : applications.getApplications()) {
+            // scrap metrics
+            Map<String, Double> result = scraper.scrap(application);
 
-                // extract labels
-                List<String> labelNames = new ArrayList<String>();
-                List<String> labelValues = new ArrayList<String>();
-                for (String s : application.getLabels()) {
-                    labelNames.add(s.split("=")[0]);
-                    labelValues.add(s.split("=")[1]);
-                }
+            // for each metric
+            for (Map.Entry<String, Double> entry : result.entrySet()) {
+                GaugeMetricFamily gauge = new GaugeMetricFamily(application.getName() + "_" + entry.getKey(),
+                    "Help for " + entry.getKey(), labelNames);
 
-                GaugeMetricFamily gauge = new GaugeMetricFamily(application.getName() + "_" + graph,
-                    "Help for " + graph, labelNames);
-
-                gauge.addMetric(labelValues, scrapResults.get(application.getName()).get(graph));
+                gauge.addMetric(labelValues, entry.getValue());
                 mfs.add(gauge);
             }
         }
         return mfs;
     }
 
-    /**
-    *
-    * @throws ScrapException ScrapException
-    * @return scrap
-    */
-    private Map<String, Map<String, Double>> scrapServers()
-            throws ScrapException {
-        LOGGER.debug("Scrapping servers...");
-
-        Map<String, Map<String, Double>> scrapResults =
-            new HashMap<String, Map<String, Double>>(applications.getApplications().size());
-
-        for (Application application : applications.getApplications()) {
-            scrapResults.put(application.getName(), scraper.scrap(application));
-        }
-        return scrapResults;
-    }
 }
