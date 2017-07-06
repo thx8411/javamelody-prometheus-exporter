@@ -1,6 +1,5 @@
 package fr.fam.melodyexporter;
 
-import java.lang.Exception;
 import java.util.NoSuchElementException;
 import java.util.LinkedHashMap;
 import java.util.Map;

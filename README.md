@@ -19,6 +19,8 @@ Afterwards just deploy the war file on an application server or web container of
 
 MelodyExporter also provides an exposed javamelody servlet for self monitoring.
 
+All metrics use the application name as metric prefix.
+
 ### Example melodyexporter.properties
 
 	# Timeout for metrics scraping

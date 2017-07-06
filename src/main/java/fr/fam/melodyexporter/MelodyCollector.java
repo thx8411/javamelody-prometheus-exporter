@@ -23,9 +23,6 @@ public class MelodyCollector extends Collector {
     private static final Logger LOGGER = Logger.getLogger(MelodyCollector.class);
 
     /** */
-    public static final String NAMESPACE = "javamelody";
-
-    /** */
     private MelodyScraper scraper;
 
     /** */
@@ -81,14 +78,12 @@ public class MelodyCollector extends Collector {
                 // extract labels
                 List<String> labelNames = new ArrayList<String>();
                 List<String> labelValues = new ArrayList<String>();
-                labelNames.add("application");
-                labelValues.add(application.getName());
                 for (String s : application.getLabels()) {
                     labelNames.add(s.split("=")[0]);
                     labelValues.add(s.split("=")[1]);
                 }
 
-                GaugeMetricFamily gauge = new GaugeMetricFamily(NAMESPACE + "_" + graph,
+                GaugeMetricFamily gauge = new GaugeMetricFamily(application.getName() + "_" + graph,
                     "Help for " + graph, labelNames);
 
                 gauge.addMetric(labelValues, scrapResults.get(application.getName()).get(graph));
