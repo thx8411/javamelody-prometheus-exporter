@@ -1,5 +1,7 @@
 ## TO DO
-* avoid stack trace for warnings in logs  
+* move settings in yaml file
+* add loglevel in settings
+* change application object : labels defined by metrics  
 * define use cases and tests
 * add missing comments
 * update README
