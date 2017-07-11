@@ -1,5 +1,0 @@
-# timeout for metrics scraping
-javamelody.timeout=5000
-
-# applications to scrap in a yaml file (see yaml example)
-javamelody.applications.file=melodyexporter.yml

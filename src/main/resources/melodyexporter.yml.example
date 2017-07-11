@@ -1,6 +1,10 @@
-# java melody applications to scrap
----
+# java melody exporter settings
+
+timeout: 5000
+
 #
+---
+# java melody applications to scrap
 
 applications:
 

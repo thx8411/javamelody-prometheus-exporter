@@ -123,8 +123,7 @@ public class MelodyScraper {
     }
 
     /**
-    *
-    * Encode credentials in base64
+    * Encode credentials in base64.
     *
     * @param login login
     * @param password password
@@ -136,8 +135,7 @@ public class MelodyScraper {
     }
 
     /**
-    *
-    * Build the javamelody request url
+    * Build the javamelody request url.
     *
     * @param application application
     * @return string

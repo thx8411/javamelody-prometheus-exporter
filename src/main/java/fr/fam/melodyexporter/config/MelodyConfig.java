@@ -1,9 +1,8 @@
 package fr.fam.melodyexporter.config;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 import java.util.regex.Pattern;
+import java.util.Scanner;
 
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -19,22 +18,10 @@ public class MelodyConfig {
     private static final Logger LOGGER = Logger.getLogger(MelodyConfig.class);
 
     /** */
-    private static final String SETTINGS_FILENAME = "melodyexporter.properties";
+    private static final String SETTINGS_FILENAME = "melodyexporter.yml";
 
     /** */
-    private static final String PROPERTY_TIMEOUT = "javamelody.timeout";
-
-    /** */
-    private static final String PROPERTY_APPLICATIONS_FILE = "javamelody.applications.file";
-
-    /** */
-    private static final String PROPERTY_APPLICATIONS = "javamelody.applications";
-
-    /** */
-    private static final int DEFAULT_TIMEOUT = 5000;
-
-    /** */
-    private static int timeout;
+    private static Settings settings;
 
     /** */
     private static Applications applications;
@@ -44,97 +31,38 @@ public class MelodyConfig {
     * @throws IllegalStateException IllegalStateException
     */
     public MelodyConfig() throws IllegalStateException {
-        LOGGER.debug("Reading config...");
-
-        InputStream propsInputStream = null;
+        LOGGER.debug("Reading configuration...");
 
         try {
-            try {
-                // load properties file
-                LOGGER.info("Reading Properties...");
+            // Get applications file and open it
+            InputStream settingsInputStream = Thread.currentThread()
+                    .getContextClassLoader()
+                    .getResourceAsStream(SETTINGS_FILENAME);
 
-                Properties props = new Properties();
-                propsInputStream = Thread.currentThread()
-                        .getContextClassLoader()
-                        .getResourceAsStream(SETTINGS_FILENAME);
-                props.load(propsInputStream);
+            // Parse settings file
+            LOGGER.debug("Parsing yaml file...");
 
-                // Get timeout
-                String rawTimeout = props.getProperty(PROPERTY_TIMEOUT, null);
-                if (rawTimeout != null) {
-                    LOGGER.debug("Timeout found : " + rawTimeout);
-                    try {
-                        timeout = Integer.parseInt(rawTimeout);
-                        LOGGER.info("Using timeout : " + timeout);
-                    } catch (NumberFormatException e) {
-                        timeout = DEFAULT_TIMEOUT;
-                        LOGGER.warn("Timeout isn't a number : " + rawTimeout);
-                    }
-                }
+            // split documents in yaml file
+            String[] documents = yamlSplit(settingsInputStream);
+            settingsInputStream.close();
 
-                // Get applications file and open it
-                LOGGER.debug("Reading applications file...");
+            // load settings (document 0)
+            Yaml yamlSettings = new Yaml(new Constructor(Settings.class));
+            settings = (Settings) yamlSettings.load(documents[0]);
+            LOGGER.info("Settings loaded");
 
-                String rawApplicationsFile = props.getProperty(PROPERTY_APPLICATIONS_FILE, null);
-                if (rawApplicationsFile != null) {
-                    InputStream appsInputStream = Thread.currentThread()
-                            .getContextClassLoader()
-                            .getResourceAsStream(rawApplicationsFile);
-                    if (appsInputStream != null) {
-                        // Parse applications file
-                        LOGGER.debug("Parsing yaml file...");
+            // load applications (document 1)
+            Yaml yamlApplications = new Yaml(new Constructor(Applications.class));
+            applications = (Applications) yamlApplications.load(documents[1]);
+            LOGGER.info("Applications loaded : " + applications.getApplications().size());
 
-                        Yaml yaml = new Yaml(new Constructor(Applications.class));
-                        applications = (Applications) yaml.load(appsInputStream);
+            checkApplications();
 
-                        for (Application application : applications.getApplications()) {
-
-                            // check label format : name=value
-                            Pattern pattern = Pattern.compile("[a-z_A-Z0-9]*=[a-z_A-Z0-9]*");
-                            for (String s : application.getLabels()) {
-                                if (!pattern.matcher(s).matches()) {
-                                    LOGGER.error("Wrong label : " + application.getName() + "." + s);
-                                    throw new IllegalStateException("Wrong label : " + application.getName() + "." + s);
-                                }
-                            }
-
-                            // check metrics
-                            for (String s : application.getMetrics()) {
-                               Boolean known = false;
-                               for (MelodyLastValueGraphs g : MelodyLastValueGraphs.values()) {
-                                   if (g.getParameterName().equals(s)) {
-                                       known = true;
-                                   }
-                               }
-                               if (!known) {
-                                   LOGGER.error("Unknown metric : " + application.getName() + "." + s);
-                                   throw new IllegalStateException("Unknown metric : " + application.getName() + "." + s);
-                               }
-                            }
-
-                            LOGGER.debug("Loaded configuration : " + application);
-                        }
-
-                        appsInputStream.close();
-                        LOGGER.info("Applications file <" + rawApplicationsFile + "> loaded");
-                    } else {
-                        LOGGER.error("Can't open applications file : " + rawApplicationsFile);
-                        throw new IllegalStateException("Can't open applications file");
-                    }
-                } else {
-                    LOGGER.error("Applications file name missing");
-                    throw new IllegalStateException("Applications file name missing");
-                }
-            } finally {
-                if (propsInputStream != null) {
-                    propsInputStream.close();
-                }
-            }
-        } catch (IOException e) {
-            LOGGER.error("Configuration failure", e);
-            throw new IllegalStateException("Configuration failure", e);
+        } catch (Exception e) {
+                LOGGER.error("Can't read settings file : " + SETTINGS_FILENAME + e);
+                LOGGER.error("Exception : " + e);
+                throw new IllegalStateException("Can't read settings file");
         }
-        LOGGER.info("Configuration loaded");
     }
 
     /**
@@ -142,7 +70,7 @@ public class MelodyConfig {
     * @return timeout
     */
     public final int getTimeout() {
-        return timeout;
+        return settings.getTimeout();
     }
 
     /**
@@ -153,4 +81,58 @@ public class MelodyConfig {
     public final Applications getApplications() {
         return applications;
     }
+
+    /**
+    * Splits the yaml documents into separated strings.
+    *
+    * @param in inputStream
+    * @return array of documents
+    */
+    private String[] yamlSplit(final InputStream in) {
+        Scanner s = new Scanner(in).useDelimiter("\\A");
+
+        String buffer;
+        if (s.hasNext()) {
+            buffer = s.next();
+        } else {
+            buffer = "";
+        }
+
+        String[] documents = buffer.split("---");
+        return documents;
+    }
+
+    /**
+    *
+    * @throws IllegalStateException IllegalStateException
+    */
+    private void checkApplications() throws IllegalStateException {
+
+        for (Application application : applications.getApplications()) {
+
+            // check label format : name=value
+            Pattern pattern = Pattern.compile("[a-z_A-Z0-9]*=[a-z_A-Z0-9]*");
+            for (String s : application.getLabels()) {
+                if (!pattern.matcher(s).matches()) {
+                    LOGGER.error("Wrong label : " + application.getName() + "." + s);
+                    throw new IllegalStateException("Wrong label : " + application.getName() + "." + s);
+                }
+            }
+
+            // check metrics
+            for (String s : application.getMetrics()) {
+                Boolean known = false;
+                for (MelodyLastValueGraphs g : MelodyLastValueGraphs.values()) {
+                    if (g.getParameterName().equals(s)) {
+                        known = true;
+                    }
+                }
+                if (!known) {
+                    LOGGER.error("Unknown metric : " + application.getName() + "." + s);
+                    throw new IllegalStateException("Unknown metric : " + application.getName() + "." + s);
+                }
+            }
+        }
+    }
+
 }
