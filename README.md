@@ -15,7 +15,7 @@ The build is maven based so a `mvn package` will create the war file in the `tar
 
 Before doing this you have to create your own `melodyexporter.yml` file and put it in your classpath (with Tomcat, use ${catalina.home}/common/classes/)
 
-Afterwards just deploy the war file on an application server or web container of your choice. (Tested with Tomcat 7 & Payara 4.1.1, Java EE 6 or above required)
+Afterwards just deploy the war file on an application server or web container of your choice. (tested with Tomcat 7 & Payara 4.1.1, Java EE 6 or above required)
 
 MelodyExporter also provides an exposed javamelody servlet for self monitoring.
 
