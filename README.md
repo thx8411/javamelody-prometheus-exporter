@@ -38,19 +38,18 @@ All metrics use the application name as metric prefix.
 	#
 	# Model :
 	#
-	#-
-	#   name:
-	#   url:
-	#   login:
-	#   password:
-	#   labels:
-	#     - "label1=value1"
-	#     - "label2=value2"
-	#     - ...
-	#   metrics:
-	#     - metric1
-	#     - metric2
-	#     - ...
+	#- name:
+	#  url:
+	#  login:
+	#  password:
+	#  labels:
+	#  - "label1=value1"
+	#  - "label2=value2"
+	#  - ...
+	#  metrics:
+	#  - metric1
+	#  - metric2
+	#  - ...
 	#
 	# where metrics can be :
 	#
@@ -80,8 +79,7 @@ All metrics use the application name as metric prefix.
 	#   
 	
 	# predefined entry for self monitoring
-	-
-  	  name: melodyexporter
+	- name: melodyexporter
   	  url: "http://localhost:8080/melodyexporter/monitoring"
   	  login:
   	  password:
