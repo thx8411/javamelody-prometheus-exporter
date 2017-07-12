@@ -87,8 +87,9 @@ public class MelodyConfig {
     *
     * @param in inputStream
     * @return array of documents
+    * @throws IllegalStateException IllegalStateException
     */
-    private String[] yamlSplit(final InputStream in) {
+    private String[] yamlSplit(final InputStream in) throws IllegalStateException {
         Scanner s = new Scanner(in).useDelimiter("\\A");
 
         String buffer;
@@ -99,7 +100,13 @@ public class MelodyConfig {
         }
 
         String[] documents = buffer.split("---");
-        return documents;
+
+        if (documents.length >= 2 && documents[0] != null && documents[1] != null) {
+            return documents;
+        } else {
+            LOGGER.error("Bad yaml syntax : file should contain 2 documents");
+            throw new IllegalStateException("Bad yaml syntax : file should contain 2 documents");
+        }
     }
 
     /**
