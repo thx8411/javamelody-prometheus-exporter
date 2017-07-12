@@ -80,14 +80,14 @@ All metrics use the application name as metric prefix.
 	
 	# predefined entry for self monitoring
 	- name: melodyexporter
-  	  url: "http://localhost:8080/melodyexporter/monitoring"
-  	  login:
-  	  password:
-  	  labels:
-    	  - "env=monitoring"
-  	  metrics:
-    	  - cpu
-    	  - usedMemory
+	  url: "http://localhost:8080/melodyexporter/monitoring"
+	  login:
+	  password:
+	  labels:
+	  - "env=monitoring"
+	  metrics:
+	  - cpu
+	  - usedMemory
 	
 	# 
 	...
