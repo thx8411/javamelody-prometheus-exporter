@@ -36,7 +36,7 @@ public class Applications {
 
         s.append("Applications{");
 
-        for ( Application a : applications) {
+        for (Application a : applications) {
             s.append(a.toString());
             s.append(", ");
         }

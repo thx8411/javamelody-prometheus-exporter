@@ -95,9 +95,10 @@ public class Application {
 
     /**
     *
+    * @param pname metric to look for
     * @return metric
     */
-    public final Metric getMetric(String pname) {
+    public final Metric getMetric(final String pname) {
         for (Metric m : metrics) {
             if (m.getName().equals(pname)) {
                 return m;

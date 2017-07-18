@@ -1,7 +1,6 @@
 package fr.fam.melodyexporter.config;
 
 import java.io.InputStream;
-import java.util.regex.Pattern;
 import java.util.Scanner;
 
 import org.yaml.snakeyaml.Yaml;
