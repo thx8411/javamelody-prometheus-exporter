@@ -42,13 +42,15 @@ All metrics use the application name as metric prefix.
 	#  url:
 	#  login:
 	#  password:
-	#  labels:
-	#  - "label1=value1"
-	#  - "label2=value2"
-	#  - ...
 	#  metrics:
-	#  - metric1
-	#  - metric2
+	#  - name: metric1
+	#    labels:
+	#    - label1: value1
+	#    - label2: value2
+	#    - ...
+	#  - name: metric2
+	#    labels:
+	#    - ...
 	#  - ...
 	#
 	# where metrics can be :
@@ -83,11 +85,13 @@ All metrics use the application name as metric prefix.
 	  url: "http://localhost:8080/melodyexporter/monitoring"
 	  login:
 	  password:
-	  labels:
-	  - "env=monitoring"
 	  metrics:
-	  - cpu
-	  - usedMemory
+	  - name: cpu
+	    labels:
+	    - env: monitoring
+	  - name: usedMemory
+	    labels:
+	    - env: monitoring
 	
 	# 
 	...

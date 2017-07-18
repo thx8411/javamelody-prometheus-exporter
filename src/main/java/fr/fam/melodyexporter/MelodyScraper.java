@@ -17,6 +17,7 @@ import org.apache.http.util.EntityUtils;
 
 import fr.fam.melodyexporter.config.MelodyConfig;
 import fr.fam.melodyexporter.config.Application;
+import fr.fam.melodyexporter.config.Metric;
 
 /**
 */
@@ -49,10 +50,10 @@ public class MelodyScraper {
     */
     public final Map<String, Double> scrap(final Application application) {
         // result to return
-        Map<String, Double> result = new LinkedHashMap<String, Double>(application.getMetrics().length);
+        Map<String, Double> result = new LinkedHashMap<String, Double>(application.getMetrics().size());
         // init result with empty values
-        for (String graph : application.getMetrics()) {
-            result.put(graph, -1.0);
+        for (Metric m : application.getMetrics()) {
+            result.put(m.getName(), -1.0);
         }
 
         // get the metrics
@@ -146,10 +147,10 @@ public class MelodyScraper {
 
         sBuilder.append(LAST_VALUE_BASE_URL);
         sBuilder.append(GRAPH_PARAMETER);
-        int size = application.getMetrics().length;
+        int size = application.getMetrics().size();
 
-        for (String m : application.getMetrics()) {
-            sBuilder.append(m);
+        for (Metric m : application.getMetrics()) {
+            sBuilder.append(m.getName());
             if (--size > 0) {
                 sBuilder.append(",");
             }

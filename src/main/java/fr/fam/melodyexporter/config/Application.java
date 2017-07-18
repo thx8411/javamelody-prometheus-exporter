@@ -1,5 +1,7 @@
 package fr.fam.melodyexporter.config;
 
+import java.util.List;
+
 /**
 *
 */
@@ -17,10 +19,7 @@ public class Application {
     private String password;
 
     /** */
-    private String[] labels;
-
-    /** */
-    private String[] metrics;
+    private List<Metric> metrics;
 
     /**
     *
@@ -88,33 +87,31 @@ public class Application {
 
     /**
     *
-    * @return labels
-    */
-    public final String[] getLabels() {
-        return labels;
-    }
-
-    /**
-    *
-    * @param plabels application labels
-    */
-    public final void setLabels(final String[] plabels) {
-        labels = plabels;
-    }
-
-    /**
-    *
     * @return metrics
     */
-    public final String[] getMetrics() {
+    public final List<Metric> getMetrics() {
         return metrics;
+    }
+
+    /**
+    *
+    * @return metric
+    */
+    public final Metric getMetric(String pname) {
+        for (Metric m : metrics) {
+            if (m.getName().equals(pname)) {
+                return m;
+            }
+        }
+        // if not found
+        return null;
     }
 
     /**
     *
     * @param pmetrics application metrics
     */
-    public final void setMetrics(final String[] pmetrics) {
+    public final void setMetrics(final List<Metric> pmetrics) {
         metrics = pmetrics;
     }
 
@@ -126,28 +123,17 @@ public class Application {
     public final String toString() {
         StringBuilder s = new StringBuilder();
 
-        s.append("Applications{");
         s.append("name=" + name + ", ");
         s.append("url=" + url + ", ");
         s.append("login=" + login + ", ");
         s.append("password=" + "*******" + ", ");
 
-        // browsing labels
-        s.append("labels=[");
-        for (String l : labels) {
-            s.append(l);
-            s.append(", ");
-        }
-        s.append("]");
-        s.append(", ");
-
         // browsing metrics
-        s.append("metrics=[");
-        for (String m : metrics) {
-            s.append(m);
+        s.append("metrics={");
+        for (Metric m : metrics) {
+            s.append(m.toString());
             s.append(", ");
         }
-        s.append("]");
         s.append("}");
 
         return s.toString();
