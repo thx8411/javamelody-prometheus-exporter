@@ -95,6 +95,14 @@ public class Application {
 
     /**
     *
+    * @param pmetrics application metrics
+    */
+    public final void setMetrics(final List<Metric> pmetrics) {
+        metrics = pmetrics;
+    }
+
+    /**
+    *
     * @param pname metric to look for
     * @return metric
     */
@@ -106,14 +114,6 @@ public class Application {
         }
         // if not found
         return null;
-    }
-
-    /**
-    *
-    * @param pmetrics application metrics
-    */
-    public final void setMetrics(final List<Metric> pmetrics) {
-        metrics = pmetrics;
     }
 
     /**
