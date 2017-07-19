@@ -17,6 +17,9 @@ Before doing this you have to create your own `melodyexporter.yml` file and put 
 
 Afterwards just deploy the war file on an application server or web container of your choice. (tested with Tomcat 7 & Payara 4.1.1, Java EE 6 or above required)
 
+Prometheus don't use the application's "context". MelodyExporter must be deployed with the "ROOT" context (example : http://localhost:8080/ not http://localhost:8080/melodyexporter/).
+On Tomcat, just remove the "webapp/ROOT" folder and rename MelodyExporter as "ROOT.war" before deployement.
+
 MelodyExporter also provides an exposed javamelody servlet for self monitoring.
 
 The log level can be modified in the log4j.properties file.
