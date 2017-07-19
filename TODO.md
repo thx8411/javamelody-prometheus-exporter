@@ -1,5 +1,5 @@
 ## TO DO
-* change application object : labels defined by metrics (to be tested)
+* to fix : metrics without labels throws a null pointer exception
 * set timeouts per applications ?
 * define use cases and tests
 * add missing comments
