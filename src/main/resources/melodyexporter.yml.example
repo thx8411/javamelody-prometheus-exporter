@@ -54,8 +54,9 @@ applications:
 #
 
 # predefined entry for self monitoring
+# don't forget to change this url depending on your environment
 - name: melodyexporter
-  url: "http://localhost:8080/melodyexporter/monitoring"
+  url: "http://localhost:8080/monitoring"
   login:
   password:
   metrics:
