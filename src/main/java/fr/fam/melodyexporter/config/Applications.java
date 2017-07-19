@@ -34,14 +34,14 @@ public class Applications {
     public final String toString() {
         StringBuilder s = new StringBuilder();
 
-        s.append("Applications{");
+        s.append("Applications[");
 
         for (Application a : applications) {
             s.append(a.toString());
             s.append(", ");
         }
 
-        s.append("}");
+        s.append("]");
 
         return s.toString();
     }

@@ -124,17 +124,19 @@ public class Application {
     public final String toString() {
         StringBuilder s = new StringBuilder();
 
-        s.append("name=" + name + ", ");
+        s.append("{name=" + name + ", ");
         s.append("url=" + url + ", ");
         s.append("login=" + login + ", ");
         s.append("password=" + "*******" + ", ");
 
         // browsing metrics
-        s.append("metrics={");
+        s.append("metrics=[");
         for (Metric m : metrics) {
             s.append(m.toString());
             s.append(", ");
         }
+        s.append("]");
+
         s.append("}");
 
         return s.toString();

@@ -52,17 +52,19 @@ public class Metric {
     public final String toString() {
         StringBuilder s = new StringBuilder();
 
-        s.append("name=" + name + ", ");
+        s.append("{name=" + name + ", ");
 
         // browsing labels
-        s.append("labels={");
+        s.append("labels=[");
         for (Map.Entry<String, String> e : labels.entrySet()) {
-            s.append("[");
+            s.append("{");
             s.append(e.getKey());
             s.append(", ");
             s.append(e.getValue());
-            s.append("], ");
+            s.append("}, ");
         }
+        s.append("]");
+
         s.append("}");
 
         return s.toString();

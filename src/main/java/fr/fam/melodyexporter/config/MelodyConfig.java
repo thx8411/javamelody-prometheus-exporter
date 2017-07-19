@@ -54,6 +54,7 @@ public class MelodyConfig {
             Yaml yamlApplications = new Yaml(new Constructor(Applications.class));
             applications = (Applications) yamlApplications.load(documents[1]);
             LOGGER.info("Applications loaded : " + applications.getApplications().size());
+            LOGGER.debug("Applications : " + applications.toString());
 
             checkApplications();
 
