@@ -15,19 +15,15 @@ applications:
 #  url:
 #  login:
 #  password:
-#  labels:
-#  - "label1=value1"
-#  - "label2=value2"
-#  - ...
 #  metrics:
 #  - name: metric1
 #    labels:
-#    - label1: value1
-#    - label2: value2
-#    - ...
+#      label1: value1
+#      label2: value2
+#      ...
 #  - name: metric2
 #    labels:
-#    - ...
+#      ...
 #  - ...
 #
 # where metrics can be :
@@ -65,10 +61,10 @@ applications:
   metrics:
   - name: cpu
     labels:
-    - env: monitoring
+      env: monitoring
   - name: usedMemory
     labels:
-    - env: monitoring
+      env: monitoring
 
 #
 ...

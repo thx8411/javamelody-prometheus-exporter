@@ -45,12 +45,12 @@ All metrics use the application name as metric prefix.
 	#  metrics:
 	#  - name: metric1
 	#    labels:
-	#    - label1: value1
-	#    - label2: value2
-	#    - ...
+	#      label1: value1
+	#      label2: value2
+	#      ...
 	#  - name: metric2
 	#    labels:
-	#    - ...
+	#      ...
 	#  - ...
 	#
 	# where metrics can be :
@@ -88,10 +88,10 @@ All metrics use the application name as metric prefix.
 	  metrics:
 	  - name: cpu
 	    labels:
-	    - env: monitoring
+	      env: monitoring
 	  - name: usedMemory
 	    labels:
-	    - env: monitoring
+	      env: monitoring
 	
 	# 
 	...
