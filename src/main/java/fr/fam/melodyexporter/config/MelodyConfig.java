@@ -60,7 +60,7 @@ public class MelodyConfig {
 
         } catch (Exception e) {
                 LOGGER.error("Can't read settings file : " + SETTINGS_FILENAME);
-                LOGGER.error("Exception : " + e);
+                LOGGER.error("Exception : " + e, e);
                 throw new IllegalStateException("Can't read settings file");
         }
     }

@@ -1,6 +1,7 @@
 package fr.fam.melodyexporter.config;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
 *
@@ -19,7 +20,7 @@ public class Application {
     private String password;
 
     /** */
-    private List<Metric> metrics;
+    private List<Metric> metrics = new ArrayList<Metric>();
 
     /**
     *

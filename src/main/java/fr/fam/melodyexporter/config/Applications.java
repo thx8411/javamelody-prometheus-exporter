@@ -1,6 +1,7 @@
 package fr.fam.melodyexporter.config;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
 *
@@ -8,7 +9,7 @@ import java.util.List;
 public class Applications {
 
     /** */
-    private List<Application> applications;
+    private List<Application> applications = new ArrayList<Application>();
 
     /**
     *

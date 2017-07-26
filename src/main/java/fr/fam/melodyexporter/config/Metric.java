@@ -1,6 +1,7 @@
 package fr.fam.melodyexporter.config;
 
 import java.util.Map;
+import java.util.HashMap;
 
 /**
 *
@@ -10,7 +11,7 @@ public class Metric {
     private String name;
 
     /** */
-    private Map<String, String> labels;
+    private Map<String, String> labels = new HashMap<String, String>();
 
     /**
     *
@@ -56,6 +57,8 @@ public class Metric {
 
         // browsing labels
         s.append("labels=[");
+
+// TO FIX : null pointer exception ?
         for (Map.Entry<String, String> e : labels.entrySet()) {
             s.append("{");
             s.append(e.getKey());
