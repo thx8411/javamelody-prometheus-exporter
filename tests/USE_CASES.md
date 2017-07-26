@@ -2,7 +2,7 @@
 
 ## Introduction
 
-To be production readme, this application must be fully tested. At this time,
+To be production ready, this application must be fully tested. At this time,
 tests still are manual.
 
 ## YML file
