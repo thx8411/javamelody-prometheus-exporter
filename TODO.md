@@ -6,3 +6,4 @@
 * update README
 * Load tests
 * optimisations
+* use multi-threading ?
