@@ -41,13 +41,13 @@ All metrics use the application name as metric prefix.
 	#
 	# Model :
 	#
-	#- name:
-	#  url:
-	#  login:
-	#  password:
-	#  metrics:
-	#  - name: metric1
-	#    labels:
+	#- name:           (mandatory)
+	#  url:            (mandatory)
+	#  login:          (optional)
+	#  password:       (optional)
+	#  metrics:        (mandatory)
+	#  - name: metric1 (mandatory)
+	#    labels:       (optional)
 	#      label1: value1
 	#      label2: value2
 	#      ...
