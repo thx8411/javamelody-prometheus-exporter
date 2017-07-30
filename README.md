@@ -100,4 +100,9 @@ All metrics use the application name as metric prefix.
 	...
 	# 
 
-CAUTION : Tabulations are forbidden in yaml files.
+## Notes
+
+* To avoid logs flooding, stack traces are ignored (only the first line is reported).
+In order to get the full stacke traces, remove "%throwable{1}" in the log4j.properties file.
+
+* CAUTION : Tabulations are forbidden in yaml files.
