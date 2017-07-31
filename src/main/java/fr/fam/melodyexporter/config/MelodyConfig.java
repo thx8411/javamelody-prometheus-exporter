@@ -117,6 +117,12 @@ public class MelodyConfig {
 
         for (Application application : applications.getApplications()) {
 
+            // check url
+            if ( application.getUrl() == null ) {
+                LOGGER.error("Missing url for application : " + application.getName());
+                throw new IllegalStateException("Missing url for application : " + application.getName());
+            }
+
             // check metrics
             for (Metric m : application.getMetrics()) {
                 Boolean known = false;

@@ -14,7 +14,7 @@ tests still are manual.
 | applications (doc) missing | no startup / Error               | OK          | NaN    |
 | applications missing       | no startup / Error               | OK          | NaN    |
 | mandatory app name missing | no startup / Error               | OK          | NaN    | 
-| mandatory url missing      | no startup / Error               | KO          | #1     |
+| mandatory url missing      | no startup / Error               | OK          | NaN    |
 | mandatory metrics missing  | no startup / Error               | OK          | NaN    |
 | mandatory m name missing   | no startup / Error               | OK          | NaN    |
 | optional login missing     | ignore                           | OK          | NaN    |
@@ -27,11 +27,11 @@ tests still are manual.
 
 | case                       | expected result                  | test result | Issues |
 | -------------------------- | -------------------------------- | ----------- | ------ |
-| wrong url                  | ignore / Warning                 | not tested  |        |
+| wrong url                  | ignore / Warning                 | OK          | NaN    |
 | wrong login                | ignore / Warning                 | not tested  |        |
 | wrong password             | ignore / Warning                 | not tested  |        |
-| non responding url         | ignore / Warning                 | not tested  |        |
-| no data for metric         | use value -1 / Warning           | not tested  |        |
+| non responding url         | ignore / Warning                 | OK          | NaN    |
+| no data for metric         | use value -1 / Warning           | OK          | NaN    |
 
 ## Load tests
 
